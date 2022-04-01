@@ -1,0 +1,4 @@
+[submodule "theroutingclub/public"]
+	path = theroutingclub/public
+	url = https://github.com/nileshgore25/theroutingclub.git
+	branch = main
