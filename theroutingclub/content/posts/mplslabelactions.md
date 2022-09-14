@@ -11,29 +11,33 @@ singleColumn : true
 # description: abc
 # introDescription: efg
 # abstract: xyz
-summary: "In this post we will go through the various operations that can be performed by an LSR on the MPLS label stack of the packet."
+summary: "In this post, we will check various operations that can be performed by the MPLS LSR (Label Switching Router) on the MPLS label stack of a packet."
 # AuthorName: "Nilesh Gore"
 ---
 
-In this post we will go through the various operations that can be performed by an LSR on the MPLS label stack of the packet.
+In this post, we will check various operations that can be performed by the MPLS LSR (Label Switching Router) on the MPLS label stack of a packet.
 
-# Label operation types
+# MPLS Label operation types
 
-1. PUSH - Impose a new label. Can be a new label on an IP packet or an additional label on an already labeled packet.
+Mentioned below are the different types of MPLS label operation.
 
-1. POP - Removing the top label from the MPLS label stack of a packet. The router preceding the egress router (known as Penultimate Hop router) pops the top label in the label stack and transmits the  packet to the next hop router.
+1. **PUSH** - Impose a new label. Can be a new label on an IP packet or an additional label on an already labeled packet.
+
+1. **POP** - Removing the top label from the MPLS label stack of a packet. The router preceding the egress router (known as Penultimate Hop router) pops the top label in the label stack and transmits the  packet to the next hop router.
 Example: An egress router announces an Implicit NULL label for its loopback interface IP prefix (which is the BGP next hop for the VRF prefixes those are advertised by this egress router) to its LDP peers.
 The LDP peer (PH router) in turn announced its own label (for example 25) to the loopback interface prefix received via IGP from the egress router.
 
-1.  SWAP - swap the top label.
+1.  **SWAP** - swap the top label.
 
-1.	Untagged - All labels removed and forward the packet unlabeled.
+1.	**Untagged** - All labels removed and forward the packet unlabeled.
 
-1.	Aggregate - All labels removed, and an IP lookup is done on the packet.
+1.	**Aggregate** - All labels removed, and an IP lookup is done on the packet.
+
+Out of the above label operations, the **Untagged** and the **Aggregate** operation need more detailed study as their operation mechanism will be clear only when we see them in action.
 
 ## Untagged
 
-An untagged label will be listed as an outgoing label in the LFIB when the next-hop router has not advertised the label.
+An untagged label will be listed as an outgoing label against an IP prefix in the LFIB (Label Forwarding Information Base) when the next-hop router has not advertised the label for that IP prefix.
 The router has no output label associated with the forwarding equivalence class (FEC ... usually an IP prefix). Since there is no output label, the router cannot perform a label swap (or pop) but has to remove the whole MPLS shim header.
 The outbound interface is not mpls enabled and therefore all remaining labels must be removed before forwarding the packet to the outbound interface.
 
@@ -50,6 +54,7 @@ The reasons a next-hop router would not advertise a label for an IP prefix inclu
 #### Example 1
 Prefixes received from CE routers will be untagged in the MPLS forwarding table (LFIB) of the PE router.
 #### Example 2
+Assume that a VPNv4 route is being sent to the iBGP neighbor. The address of the next hop is a loopback interface that does not have a /32 mask defined. OSPF is being used on this loopback interface, and the OSPF network type of this interface is LOOPBACK. OSPF advertises this IP address as a host route (with mask /32), regardless of what mask is configured. This advertising conflict with TDP, which uses configured masks, so the TDP neighbors may not receive a tag for the prefix with configured subnet mask. This condition could break connectivity between sites that belong to the same VPN.
 
 ## Aggregate
 
@@ -63,10 +68,11 @@ Aggregate Label is also assigned to aggregated prefixes
 
 When you perform an aggregation (or summarization) on an LSR, it advertises a specific label for the aggregated prefix, but the outgoing label in the LFIB shows “Aggregate.” Because this LSR is aggregating a range of prefixes, it cannot forward an incoming labeled packet by label-swapping the top label. The outgoing label entry showing“Aggregate” means that the aggregating LSR needs to remove the label of the incoming packet and must do an IP lookup to determine the more specific prefix to use for forwarding this IP packet. 
 
-{{% notice note "Note" %}}
-This is a standard "note" style.
-{{% /notice %}}
-
 ## Topology
+![MPLS VPN topology](/images/mpls_vpn/mplsvpn_1.JPG)
 
-![mplsvpn_1](/images/mpls_vpn/mplsvpn_1.JPG)
+In this topology, the MPLS core is running OSPF as IGP. PE1 and PE2 are MPLS provider edge routers which has vrf VPN_A configured on them. The router in the MPLS core is P router (Provider router) which does not have any VRFs configured. However the P router is a BGP route reflector and router PE1 and PE2 are its clients.
+In case of BGP sessions between the PE1, PE2, P routers, we have enabled only the BGP VPNv4 address family and have disabled the IPv4 address family (which is enabled by default if not manually disable).
+
+
+
