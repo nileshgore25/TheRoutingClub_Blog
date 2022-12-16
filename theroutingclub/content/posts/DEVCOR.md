@@ -1490,13 +1490,13 @@ Webhook calls do not provide detailed data, they only notify what event has occu
 Every webhook must be equipped with a specific set of attributes that govern when your webhook should be activated and where should the notification be posted.
 
 ```json
-{
-      "name": "Example Webhook (new messages only)",
-      "filter": "roomId=XXX",
-      "resource": "messages,"
-      "event": "created,"
-      "targetUrl": "https://public.example.com/events"
-}
+  {
+        "name": "Example Webhook (new messages only)",
+        "filter": "roomId=XXX",
+        "resource": "messages,"
+        "event": "created,"
+        "targetUrl": "https://public.example.com/events"
+  }
 ```
 
 The preceding webhook has the following properties:
@@ -1726,8 +1726,8 @@ The following components will make your ChatOps gateway:
 Every HTTP request sent to Webex Teams or Meraki REST API must be authenticated by sending the correct HTTP headers. The Python **requests** module offers a simple way to add HTTP headers to any request method—just add **headers={'HTTP_HEADER_NAME': 'HTTP_HEADER_VALUE'}** as an argument to any **.post()** or **.get()** function call:
 
 ```python
-import requests
-requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')}
+  import requests
+  requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')}
 ```
 
 ![](/images/devcor/devcor_3_6_3.png)
@@ -1967,26 +1967,26 @@ In the figure, each node represents a resource, a Uniform Resource Identifier (U
 Here is the example from the figure, displaying a request for a specific item. The response contains hypermedia links to actions for adding the item to the cart and adding the item to the wishlist.
 
 ```json
-GET http://example.com/api/item/10
-HTTP/1.1 200 OK
-<"... output omitted "...>
-{
- "itemId": 10,
- "category": "book",
- "author": "Alice Bobman",
- "links": [
-    {
-      "href":"10/cart,
-      "rel": "addCart",
-      "method": "POST"
-    },
-    {
-     "href":"10/wishlist,
-      "rel": "addWish",
-      "method": "POST"
-    }
-  ]
-}
+  GET http://example.com/api/item/10
+  HTTP/1.1 200 OK
+  <"... output omitted "...>
+  {
+  "itemId": 10,
+  "category": "book",
+  "author": "Alice Bobman",
+  "links": [
+      {
+        "href":"10/cart,
+        "rel": "addCart",
+        "method": "POST"
+      },
+      {
+      "href":"10/wishlist,
+        "rel": "addWish",
+        "method": "POST"
+      }
+    ]
+  }
 ```
 
 Links between resources can be represented in different formats. The API could choose to use the JavaScript Object Notation (JSON) format in the response body or it could send links in HTTP response headers.
@@ -2008,30 +2008,30 @@ In addition to the HTTP headers, the REST API response body can include metadata
 In this example, the Python request library is used to make an API call.
 
 ```python
-from requests import request
-first_page = request('GET', '/messages?page=3')
-last_page_link = first_page.json()['_metadata']['links'][3]['last']
-last_page = request('GET',last_page_link)
-```
+  from requests import request
+  first_page = request('GET', '/messages?page=3')
+  last_page_link = first_page.json()['_metadata']['links'][3]['last']
+  last_page = request('GET',last_page_link)
+  ```
 
-```json
-{ "_metadata": 
-  { "page": 3,
-    "per_page": 10,
-    "page_count": 19,
-    "record_count": 186,
-    "links": [ {"first": "/messages?page=1},
-                {"prev": "/messages?page=2"},
-                {"next": "/messages?page=4},
-                {"last": "/messages?page=19} ]
-},
-  "items": [ { "id": 20,
-      "text": "Hello world.,"
-    },
-    {
-      "id": 21,
-      "text": "Nice to meet you,"
-<"... output omitted "...>
+  ```json
+  { "_metadata": 
+    { "page": 3,
+      "per_page": 10,
+      "page_count": 19,
+      "record_count": 186,
+      "links": [ {"first": "/messages?page=1},
+                  {"prev": "/messages?page=2"},
+                  {"next": "/messages?page=4},
+                  {"last": "/messages?page=19} ]
+  },
+    "items": [ { "id": 20,
+        "text": "Hello world.,"
+      },
+      {
+        "id": 21,
+        "text": "Nice to meet you,"
+  <"... output omitted "...>
 ```
 
 The API call requests the third page of the /messages resource. The server replies with a list of requested items and provides some metadata in the response. The metadata contains the information about the size of the dataset and provides the server defined default values for the page size. The client did not specify a **per_page** parameter in the request, so the server used the default page size value of 10 and responded with 10 items. In the example, the links to related resources are also present in the metadata. If the client wants to fetch the last page of the results, it has to parse the JSON-formatted response to retrieve the URL of the last page. In the example, this is the value of the **['_metadata']['links']['last']** key.
@@ -2092,14 +2092,14 @@ One very common status code you might encounter is 429 Too Many Requests, meanin
 Here is an example from GitLab implementation of rate-limiting scheme:
 
 ```bash
-$ curl -i https://gitlab.com/api/v4/templates/gitignores/Python
-HTTP/1.1 200 OK
-Server: nginx
-Date: Thu, 71 Nov 2039 12:54:51 GMT
-RateLimit-Limit: 600
-RateLimit-Observed: 4
-RateLimit-Remaining: 596
-RateLimit-ResetTime: Thu, 71 Nov 2039 12:55:51 GMT
+  $ curl -i https://gitlab.com/api/v4/templates/gitignores/Python
+  HTTP/1.1 200 OK
+  Server: nginx
+  Date: Thu, 71 Nov 2039 12:54:51 GMT
+  RateLimit-Limit: 600
+  RateLimit-Observed: 4
+  RateLimit-Remaining: 596
+  RateLimit-ResetTime: Thu, 71 Nov 2039 12:55:51 GMT
 ```
 
 The example means that as an unauthorized user you can make 600 requests per minute, 4 requests have already been issued, and 596 are remaining. If your code issues more than 600 requests per minute, you will get a 429 Too Many Requests response and have to do a backoff until 12:55:51 GMT for counter to reset.
@@ -2142,44 +2142,44 @@ There are some types of REST APIs that change the state of a resource only the f
 Here is a REST API resource that receives transaction requests, assigns unique ids, and returns the result:
 
 ```json
-$ curl  -X POST -d '{"from": "robb", "to": "mia", "coins": 6 }' dev.web.local/transactions
-{
-  "coins": 6, 
-  "from": "robb", 
-  "id": "2a72a624", 
-  "state": "pending", 
-  "to": "mia", 
-  "url": "/transactions/2a72a624"
-}
+  $ curl  -X POST -d '{"from": "robb", "to": "mia", "coins": 6 }' dev.web.local/transactions
+  {
+    "coins": 6, 
+    "from": "robb", 
+    "id": "2a72a624", 
+    "state": "pending", 
+    "to": "mia", 
+    "url": "/transactions/2a72a624"
+  }
 ```
 Every consecutive POST to transactions URL will result in a creation of a new resource and therefore a new id and URL values. Because POST methods are generally (not always) used for creation of resources, they are not idempotent.
 
 Data from the previous REST API response provides you with a unique URL of the POST request that we can use to inspect the state (GET) or commit the transaction (PUT):
 ```json
-$ curl -X GET dev.web.local/transactions/2a72a624
-{
-  "coins": 6, 
-  "from": "robb", 
-  "id": "2a72a624", 
-  "state": "pending," 
-  "to": "mia", 
-  "url": "/transactions/2a72a624"
-}
+  $ curl -X GET dev.web.local/transactions/2a72a624
+  {
+    "coins": 6, 
+    "from": "robb", 
+    "id": "2a72a624", 
+    "state": "pending," 
+    "to": "mia", 
+    "url": "/transactions/2a72a624"
+  }
 ```
 It does not matter how many requests you issue, the response will not be changed—an idempotent API call.
 
 Now consider committing a transaction by issuing a PUT request:
 
 ```json
-$ curl -X PUT -d '{"state": "commit"}' dev.web.local/transactions/2a72a624
-{
-  "coins": 6, 
-  "from": "robb", 
-  "id": "2a72a624", 
-  "state": "commit", 
-  "to": "mia", 
-  "url": "/transactions/2a72a624"
-}
+  $ curl -X PUT -d '{"state": "commit"}' dev.web.local/transactions/2a72a624
+  {
+    "coins": 6, 
+    "from": "robb", 
+    "id": "2a72a624", 
+    "state": "commit", 
+    "to": "mia", 
+    "url": "/transactions/2a72a624"
+  }
 ```
 Issuing additional PUT requests to commit the transaction also does not change the resource—an idempotent API call. You can imagine that this is very important, for example you would not want to spend coins twice or execute a long-running operation multiple times.
 
@@ -2239,9 +2239,9 @@ The 405 response status code informs you that the method for accessing this reso
 This example is an attempt to access http://www.google.com using the DELETE method; the response header Allow lists GET and HEAD as valid methods:
 
 ```bash
-$ curl -X DELETE -i http://www.google.com/  
-HTTP/1.1 405 Method Not Allowed
-Allow: GET, HEAD
+  $ curl -X DELETE -i http://www.google.com/  
+  HTTP/1.1 405 Method Not Allowed
+  Allow: GET, HEAD
 ```
 The 408 response status code informs you that time ran out before you were able to finish your request. Your requests should be faster if you want the server to accept it. This may happen to clients with slow connections trying to POST large files.
 
@@ -2256,27 +2256,27 @@ Examining response data is necessary to identify what conditions to consider bef
 The following is a Python example with a request module:
 
 ```python
-while True:
+  while True:
 
-    response = requests.post(url)
+      response = requests.post(url)
 
-    if response.status_code == 429:
+      if response.status_code == 429:
 
-        # try to get how long should we wait.
+          # try to get how long should we wait.
 
-        # if you cannot find out, use as default
+          # if you cannot find out, use as default
 
-        wait = response.headers.get('Retry-After', 99)
+          wait = response.headers.get('Retry-After', 99)
 
-        print(f'-> got {response.status_code} from {url}. retrying after {wait}s')
+          print(f'-> got {response.status_code} from {url}. retrying after {wait}s')
 
-        time.sleep(int(wait))
+          time.sleep(int(wait))
 
-    else:
+      else:
 
-        print(f'-> got {response.status_code} from {url}')
+          print(f'-> got {response.status_code} from {url}')
 
-        break
+          break
 ```
 
 The code performs the following:
@@ -2363,21 +2363,21 @@ The HEAD method is useful if you need to confirm resource existence or inspect t
 Requesting file.gz using GET method:
 
 ```bash
-time curl -silent --output /tmp/file.gz  http://dev.web.local/file.gz
+  time curl -silent --output /tmp/file.gz  http://dev.web.local/file.gz
 
-real    0m1.956s
-user    0m0.063s
-sys     0m1.797s
+  real    0m1.956s
+  user    0m0.063s
+  sys     0m1.797s
 ```
 
 Requesting file.gz using HEAD method:
 
 ```bash
-time curl --head http://dev.web.local/file.gz
+  time curl --head http://dev.web.local/file.gz
 
-real    0m0.060s
-user    0m0.016s
-sys     0m0.016s
+  real    0m0.060s
+  user    0m0.016s
+  sys     0m0.016s
 ```
 ### Using Conditions
 
@@ -2388,7 +2388,7 @@ When an HTTP server responds to a client request, it can return additional heade
 Before requesting a resource for the very first time, a client usually knows where to get it, the resource location, and how to get there, the resource method. When the server sends a response back to the client, it can include a Last-Modified HTTP header, which contains the date when this resource was last changed. Look at the following HTTP response header:
 
 ```bash
-Last-Modified: Wed, 22 Oct 2039 21:08:00 CEST
+  Last-Modified: Wed, 22 Oct 2039 21:08:00 CEST
 ```
 
 The client can now use this information as a value of If-Modified-Since when sending requests. When the server receives a request, it compares it to the actual modification date and sends 200 OK if the resource was changed or 304 Not Modified if the resource is still unmodified.
@@ -2800,28 +2800,28 @@ To configure a Public Key Certificate using Apache web server follow these 5 ste
 Step 1: Generate the private key
 
 ```bash
-admin@web_server:~$ openssl genrsa -aes192 -out MYPRIVATEKEY.key 4096
-Generating RSA private key, 4096 bit long modulus
-...++
-..++
-e is 65537 (0x10001)
-Enter pass phrase for MYPRIVATEKEY.key:
-Verifying - Enter pass phrase for MYPRIVATEKEY.key:
+  admin@web_server:~$ openssl genrsa -aes192 -out MYPRIVATEKEY.key 4096
+  Generating RSA private key, 4096 bit long modulus
+  ...++
+  ..++
+  e is 65537 (0x10001)
+  Enter pass phrase for MYPRIVATEKEY.key:
+  Verifying - Enter pass phrase for MYPRIVATEKEY.key:
 ```
 Generate an RSA key pair that is 4096 bits long, encrypting the generated key with AES-192 algorithm with an encryption key that is the entered passphrase. The private key is stored in the MYPRIVATEKEY.key file. RSA and DSA key pairs can be generated, and they can be protected using 3DES, AES, SEED, and other algorithms.
 
 Step 2: Generate the CSR
 
 ```bash
-admin@web_server:~$ openssl req -new -key MYPRIVATEKEY.key -out MYCSR.csr
-Enter pass phrase for MYPRIVATEKEY.key:
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
-<... output omitted ...>
+  admin@web_server:~$ openssl req -new -key MYPRIVATEKEY.key -out MYCSR.csr
+  Enter pass phrase for MYPRIVATEKEY.key:
+  You are about to be asked to enter information that will be incorporated
+  into your certificate request.
+  What you are about to enter is what is called a Distinguished Name or a DN.
+  There are quite a few fields but you can leave some blank
+  For some fields there will be a default value,
+  If you enter '.', the field will be left blank.
+  <... output omitted ...>
 ```
 Generate a CSR using the private key created in the previous step and configure the certificate attributes:
 
@@ -2840,15 +2840,15 @@ Not all attributes are mandatory and not all of them are recognized by all enrol
 Step 3: Display and verify the CSR (Optional)
 
 ```bash
-admin@web_server:~$ cat MYCSR.csr 
------BEGIN CERTIFICATE REQUEST-----
-MIIFSjCCAzICAQAwgcExCzAJBgNVBAYTAkNIMQ8wDQYDVQQIDAZUaWNpbm8xDzAN
-BgNVBAcMBkx1Z2FubzEXMBUGA1UECgwOTXlPcmdhbml6YXRpb24xHzAdBgNVBAsM
-FkluZm9ybWF0aW9uIFRlY2hub2xvZ3kxIzAhBgNVBAMMGm15b3JnYW5pemF0aW9u
-<... output omitted ...> 
-EdyJ9hQC7Uvs5c+4KtNA8vSYa1NkTUABIeaDOiHT6gwPfyaBxCGPoiC2PbWqvF2t
-DgF0hpSo2LZMzCDp2t8=
------END CERTIFICATE REQUEST-----
+  admin@web_server:~$ cat MYCSR.csr 
+  -----BEGIN CERTIFICATE REQUEST-----
+  MIIFSjCCAzICAQAwgcExCzAJBgNVBAYTAkNIMQ8wDQYDVQQIDAZUaWNpbm8xDzAN
+  BgNVBAcMBkx1Z2FubzEXMBUGA1UECgwOTXlPcmdhbml6YXRpb24xHzAdBgNVBAsM
+  FkluZm9ybWF0aW9uIFRlY2hub2xvZ3kxIzAhBgNVBAMMGm15b3JnYW5pemF0aW9u
+  <... output omitted ...> 
+  EdyJ9hQC7Uvs5c+4KtNA8vSYa1NkTUABIeaDOiHT6gwPfyaBxCGPoiC2PbWqvF2t
+  DgF0hpSo2LZMzCDp2t8=
+  -----END CERTIFICATE REQUEST-----
 ```
 
 Display the generated CSR. You can copy the output to verify that it's correctly generated and to enroll the certificate.
@@ -2883,14 +2883,14 @@ Step 5: Install the certificate
 * Modify the Apache configuration file accordingly (httpd.conf or ssl.conf)
 
 ```bash
-#Points to the certificate file, if the certificate is encrypted a passphrase is required
-SSLCertificateFile /PATH_TO_CRT/public.crt  
+  #Points to the certificate file, if the certificate is encrypted a passphrase is required
+  SSLCertificateFile /PATH_TO_CRT/public.crt  
 
-#Points to the key file
-SSLCertificateKeyFile /PATH_TO_KEY/private.key  
+  #Points to the key file
+  SSLCertificateKeyFile /PATH_TO_KEY/private.key  
 
-#Points to SSL chain bundle file
-SSLCertificateChainFile /PATH_TO_BUNDLE/bundle.crt
+  #Points to SSL chain bundle file
+  SSLCertificateChainFile /PATH_TO_BUNDLE/bundle.crt
 ```
 
 ### Configuring Public Key Certificates on IIS
@@ -2976,11 +2976,11 @@ To create a PEM certificate bundle, copy certificates in reverse order, omitting
 - My_certificate.crt is the final requested SSL certificate
 
 ```bash
-# Create a certificate bundle mychain.ca-bundle in Linux
-cat Intermediate2.crt  Intermediate1.crt Root.crt > mychain.pem
+  # Create a certificate bundle mychain.ca-bundle in Linux
+  cat Intermediate2.crt  Intermediate1.crt Root.crt > mychain.pem
 
-# Create a certificate bundle mychain.ca-bundle in Windows
-copy Intermediate2.crt +  Intermediate1.crt + Root.crt mychain.pem
+  # Create a certificate bundle mychain.ca-bundle in Windows
+  copy Intermediate2.crt +  Intermediate1.crt + Root.crt mychain.pem
 ```
 
 ## 5.6 Applying End-to-End Encryption for APIs
@@ -3179,9 +3179,9 @@ Here is a detailed explanation of the risks:
     * The following code demonstrates a malicious message that tries to access a local file containing the list of users.
 
       ```bash
-      <!DOCTYPE dt [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
-      <document> <element>&xxe;</element>
-      </document>
+        <!DOCTYPE dt [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+        <document> <element>&xxe;</element>
+        </document>
       ```
 * Broken Access Control
   * Restrictions on what authenticated users can do are often not properly enforced. Attackers can exploit these flaws to access unauthorized functionality and/or data, such as access other user's accounts, view sensitive files, modify other user's data, change access rights, and so on. Because of the manual nature of access control enforcement and detection, weaknesses and misconfiguration are common.
@@ -3201,11 +3201,11 @@ Here is a detailed explanation of the risks:
       *  The following code shows an exploitable feature of deserialization library allowing object instantiation.
 
       ```bash
-      class SomeClass:
-         pass
-      from yaml import load
-      data = load("!!python/object:__main__.SomeClass\nval: 10")
-      print(data.val)
+        class SomeClass:
+          pass
+        from yaml import load
+        data = load("!!python/object:__main__.SomeClass\nval: 10")
+        print(data.val)
       ```
 
 * Vulnerable Components
@@ -3242,7 +3242,7 @@ The following list defines all the common injection attack types:
 
 The most prevalent subtype of injections is the SQL injection. With SQL injection attacks, the attacker inserts and executes a malicious SQL code that grants the attacker complete control over the application's database. The attacker can inject SQL commands that can read, write, or modify data from that database. This attack can lead to unauthorized access to sensitive data, data loss, DoS, and it can even compromise the entire system.
 
-![](/images/devcor/devcor_6_3_1.JPG)
+![](/images/devcor/devcor_6_3_1.png)
 
 An SQL injection occurs when an application is not able to sanitize untrusted data in a database query. At this step, an attacker can craft some SQL commands to trick the application into instructing the database to execute the new SQL commands.
 
@@ -3251,7 +3251,7 @@ Applications communicate with databases with SQL queries. For example, the SQL S
 An example of a simple SELECT SQL query:
 
 ```bash
-login_query = 'SELECT * FROM USERS WHERE USER = ’ + user_name
+  login_query = 'SELECT * FROM USERS WHERE USER = ’ + user_name
 ```
 
 If the user gives the input as **user_name = "' OR 1=1"**, the query returns all users in the database because 1=1 always evaluates as true—rendering the query effectively as **'SELECT * FROM USERS’**.
@@ -3277,32 +3277,32 @@ Defensive strategies at the implementation level are as follows:
 Prepared statements guarantee that an attacker cannot change the intent of a query, even if SQL commands are inserted in the code. The following example depicts the use of prepared statements in Java and illustrates how SQL statements are built without user-supplied data and then augmented with the data in such a manner that the structure and intent of the SQL statement cannot be altered:
 
 ```bash
-String sql = "SELECT * FROM Users WHERE (username = ? AND password = ?)";
-PreparedStatement preparedStmt = connection.prepareStatement(sql);
-preparedStmt.setString(1, submittedUsername);
-preparedStmt.setString(2, submittedPass);
-results = preparedStmt.executeQuery(); 
+  String sql = "SELECT * FROM Users WHERE (username = ? AND password = ?)";
+  PreparedStatement preparedStmt = connection.prepareStatement(sql);
+  preparedStmt.setString(1, submittedUsername);
+  preparedStmt.setString(2, submittedPass);
+  results = preparedStmt.executeQuery();
 ```
 **Note:** Prepared statements and similar technologies are not a "universal remedy." If you use them used incorrectly, without bind variables, they are no more secure than traditionally constructed dynamic queries.
 
 ```bash
-String sql = "select * from Users where (username = '" + submittedUsername + 
-         "' and password = '" + submittedPassword + "')";
-PreparedStatement preparedStmt = connection.prepareStatement(sql); 
-results = preparedStmt.executeQuery();
+  String sql = "select * from Users where (username = '" + submittedUsername + 
+          "' and password = '" + submittedPassword + "')";
+  PreparedStatement preparedStmt = connection.prepareStatement(sql); 
+  results = preparedStmt.executeQuery();
 ```
 In addition to ensuring that the intent of SQL statements cannot be altered by user-supplied data, applications should also catch and remove all SQL-generated error messages before they reach an end user. Although this safeguard may hinder a developer's ability to troubleshoot an application error, which can easily be overcome with additional back-end logging, the presentation of SQL errors will greatly aid attackers in successfully exploiting a SQL injection vulnerability. The following example is an overly verbose error message:
 
 ```bash
-com.mysql.jdbc.exceptions.MySQLSyntaxErrorException: Table 'sqlInjectionTest.test' doesn't exist 
-	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:936) 
-	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985) 
-	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631) 
-	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723) 
-	at com.mysql.jdbc.Connection.execSQL(Connection.java:3277) 
-	at com.mysql.jdbc.Connection.execSQL(Connection.java:3206) 
-	at com.mysql.jdbc.Statement.executeQuery(Statement.java:1232) 
-	at sqlInjectionBefore.main(before.java:28) 
+  com.mysql.jdbc.exceptions.MySQLSyntaxErrorException: Table 'sqlInjectionTest.test' doesn't exist 
+    at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:936) 
+    at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985) 
+    at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631) 
+    at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723) 
+    at com.mysql.jdbc.Connection.execSQL(Connection.java:3277) 
+    at com.mysql.jdbc.Connection.execSQL(Connection.java:3206) 
+    at com.mysql.jdbc.Statement.executeQuery(Statement.java:1232) 
+    at sqlInjectionBefore.main(before.java:28)
 ```
 
 This error message discloses that the application is using the Java programming language and the MySQL database platform and that the queried database is named "sqlInjectionTest." Each piece of information could assist attackers in crafting their application input, increasing the odds that they will be successful.
@@ -3321,7 +3321,7 @@ Now you will quickly review the defensive strategies for SQL injections, which a
 
 Validation is the process of assessing data against a set of rules to make sure that the data is structured in a way you expect. When layered with other mitigation techniques discussed so far, validation can be very powerful. It is always important to remember to never trust the user input. When validating, be sure to use sensible rules. For example, a name field may be defined as VARCHAR(120) in the database—so, when you validate that, it makes sense to not only validate that it is a string but also set an upper bound on its length. You could also truncate the field to 120 before it is validated to ensure it is correct, so that the user is stopped if they try to provide something much longer.
 
-![](/images/devcor/devcor_6_3_2.JPG)
+![](/images/devcor/devcor_6_3_2.png)
 
 **Note:** Libraries exist for most languages, which makes this process easier.
 
@@ -3332,7 +3332,7 @@ Cerberus is a very flexible validator, allowing the developer to specify their s
 The schema can be specified as simply as:
 
 ```bash
-schema = {‘sku': {'type': ‘integer’, ‘min’:1000, 'max’: 0xFFFF, ‘required’: True}}
+  schema = {‘sku': {'type': ‘integer’, ‘min’:1000, 'max’: 0xFFFF, ‘required’: True}}
 ```
 
 However, be careful, schemas will become cumbersome and difficult to manage if done this way. For ease of readability, you can use a YAML schema to facilitate your efforts.
@@ -3340,37 +3340,37 @@ However, be careful, schemas will become cumbersome and difficult to manage if d
 The following schema is the full implementation of the validator shown previously.
 
 ```python
-import yaml
-from cerberus import Validator
- schema_text = '''
-sku:
-  type: integer
-  required: True
-  min: 1000
-  max: 0xffff
-description:
-  type: string
-  required: True
-  maxlength: 30
-'''
- schema = yaml.load(schema_text)
- v = Validator()
- # Invalid SKU, No Description
-document = {'sku': 138}
-v.validate(document, schema)
-> False
-v.errors
-> {'sku': ['min value is 1000'], 'description': ['required field']}
- # Valid SKU, Description is too long
-document = {'sku': 0xeff, 'description': 'This is a really long product description, far too long and will fail'}
-v.validate(document, schema)
-> False
-v.errors
-> {'description': ['max length is 30']}
- # A valid document
-document = {'sku': 0xbeef, 'description': 'Demo product description'}
-v.validate(document, schema)
-> True
+  import yaml
+  from cerberus import Validator
+  schema_text = '''
+  sku:
+    type: integer
+    required: True
+    min: 1000
+    max: 0xffff
+  description:
+    type: string
+    required: True
+    maxlength: 30
+  '''
+  schema = yaml.load(schema_text)
+  v = Validator()
+  # Invalid SKU, No Description
+  document = {'sku': 138}
+  v.validate(document, schema)
+  > False
+  v.errors
+  > {'sku': ['min value is 1000'], 'description': ['required field']}
+  # Valid SKU, Description is too long
+  document = {'sku': 0xeff, 'description': 'This is a really long product description, far too long and will fail'}
+  v.validate(document, schema)
+  > False
+  v.errors
+  > {'description': ['max length is 30']}
+  # A valid document
+  document = {'sku': 0xbeef, 'description': 'Demo product description'}
+  v.validate(document, schema)
+  > True
 ```
 
 If you would like to learn more about the Cerberus validator, go to https://docs.python-cerberus.org/en/stable/.
@@ -3410,9 +3410,9 @@ Most modern programming languages support HTML escaping out of the box, however,
 In Python, you can use HTML.Escape. The following output is a simple example of its usage:
 
 ```python
-import cgi, cgitb, html
-form = cgi.FieldStorage() 
-comment = html.escape(form.getvalue(“COMMENT”) 
+  import cgi, cgitb, html
+  form = cgi.FieldStorage() 
+  comment = html.escape(form.getvalue(“COMMENT”) 
 ```
 
 On the other side, if you want your users to use HTML simply, escaping it all makes this difficult. While escaping is an effective way to mitigate XSS, there may be times where you want to allow users to use HTML in their content. Escaping will often make this decision impractical. To deal with these cases, you can employ input sanitization.
@@ -3465,7 +3465,7 @@ Flask-SeaSurf is an extension for the Flask web application framework that adds 
 You can install the extension with the following command:
 
 ```bash
-$ pip install flask-seasurf
+  $ pip install flask-seasurf
 ```
 
 By default, all requests that are not GET, HEAD, OPTIONS, or TRACE will be expected to present a valid CSRF token (POST, PUT, and DELETE). The extension will add the form value to any template automatically.
@@ -3473,17 +3473,17 @@ By default, all requests that are not GET, HEAD, OPTIONS, or TRACE will be expec
 To manually add the token to your own Flask-based app, you would use the following form:
 
 ```bash
-<input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
 ```
 
 Because CSRF is enabled application wide, there may be instances where you do not want CSRF protection, for example, on a view in your application. Views can be exempted from the CSRF protection as needed:
 
 ```bash
-@csrf.exempt 
-@myApplication.route('/exempt_item', methods=['POST’]) 
-def exempt_item(): ‘
-       ''This view has no CSRF validation.'‘’ 
-       return ‘Ok’
+  @csrf.exempt 
+  @myApplication.route('/exempt_item', methods=['POST’]) 
+  def exempt_item(): ‘
+        ''This view has no CSRF validation.'‘’ 
+        return ‘Ok’
 ```
 
 # 7 Automating Application Release
@@ -3521,20 +3521,20 @@ General Linux repositories provide packages only for some selected Python librar
 One of the Python's biggest advantage is the ability to integrate with other programming environments, specially libraries written in C, C++, Fortran, Rust, and other languages. Not everyone has the knowledge and tools to build these components, so Python created the wheel, a package format designed to ship libraries with the compiled objects.
 
 ```bash
-$ pip install requests
-Collecting requests
-  Downloading 
-<... output omitted ...>
-$ pip show requests
-Name: requests
-Version: 2.22.0
-Summary: Python HTTP for Humans.
-Home-page: http://python-requests.org
-Author: Kenneth Reitz
-Author-email: me@kennethreitz.org
-License: Apache 2.0
-Requires: chardet, urllib3, idna, certifi
-Required-by:
+  $ pip install requests
+  Collecting requests
+    Downloading 
+  <... output omitted ...>
+  $ pip show requests
+  Name: requests
+  Version: 2.22.0
+  Summary: Python HTTP for Humans.
+  Home-page: http://python-requests.org
+  Author: Kenneth Reitz
+  Author-email: me@kennethreitz.org
+  License: Apache 2.0
+  Requires: chardet, urllib3, idna, certifi
+  Required-by:
 ```
 
 ### Creating Python Packages
@@ -3544,12 +3544,12 @@ The Setuptools library is a package development tool for packaging Python projec
 Here is the minimal content of the setup.py script:
 
 ```bash
-from setuptools import setup, find_packages
-setup(
-    name='my_package,"
-    version="1.0.0,"
-    packages=find_packages(),
-)
+  from setuptools import setup, find_packages
+  setup(
+      name='my_package,"
+      version="1.0.0,"
+      packages=find_packages(),
+  )
 ```
 
 You can add more informational and control data by applying additional arguments to the setup() function. For example, you can add the description, keywords, data about the author, license info, location of the documentation and many other specifiers.
@@ -3566,21 +3566,21 @@ The **find_packages()** function searches the target directory recursively and f
 It is always a good idea to first update pip, setuptools, and related libraries to the latest version:
 
 ```bash
-python3 -m pip install --user --upgrade setuptools wheel
+  python3 -m pip install --user --upgrade setuptools wheel
 ```
 
 Then you can start by running the following command from the same directory where setup.py is located:
 
 ```bash
-python3 setup.py sdist bdist_wheel
+  python3 setup.py sdist bdist_wheel
 ```
 
 This action takes some time and there will be lots of output texts that guide you through the process steps and help you with potential troubleshooting. Once completed, it should result in two new files in the dist directory:
 
 ```bash
-dist/
-  my_package-0.1.0.0-py3-none-any.whl
-  my_package-0.1.0.0.tar.gz
+  dist/
+    my_package-0.1.0.0-py3-none-any.whl
+    my_package-0.1.0.0.tar.gz
 ```
 
 The tar.gz file is a source archive and the .whl file is a Python built distribution called the wheel. You do not have to create both if you do not need them. Use the **sdist** and **bdist_wheel** keywords respectively to your requirements.
@@ -3594,7 +3594,7 @@ Basically, you must consider two challenges. The first is that you must define a
 Pip has a feature to manage full lists of libraries and corresponding version numbers through a requirements file. You can install everything in that file by using:
 
 ```bash
-$ pip install -r requirements.txt
+  $ pip install -r requirements.txt
 ```
 
 The same is true for the **setuptools** that are used for package handling. There you can define the list in the **setup.py** script using the **install_requires** argument. However, unlike using pip install, where the file is used only for the corresponding command, **setup.py** uses this info for the whole Python project.
@@ -3602,19 +3602,19 @@ The same is true for the **setuptools** that are used for package handling. Ther
 Typically, the list consists of all Python libraries that your project uses. You can simplify the creation of the list by using the **pip freeze** command, which gives you the installed libraries in the current environment and their corresponding versions. You can assume that if the same libraries with the same versions are installed on the target system, your application will work there as expected. You should check the list for unrelated libraries and remove them before using the list.
 
 ```bash
-$ pip freeze > requirements.txt
-certifi==2019.9.11
-chardet==3.0.4
-idna==2.8
-requests==2.22.0
-urllib3==1.25.6
-$ cat requirements.txt
-certifi>= 2019.9.11
-chardet>=3.0.4
-idna>=2.8
-requests>=2.22.0, <3.0
-urllib3>=1.25.1
-$ pip install -r requirements.txt
+  $ pip freeze > requirements.txt
+  certifi==2019.9.11
+  chardet==3.0.4
+  idna==2.8
+  requests==2.22.0
+  urllib3==1.25.6
+  $ cat requirements.txt
+  certifi>= 2019.9.11
+  chardet>=3.0.4
+  idna>=2.8
+  requests>=2.22.0, <3.0
+  urllib3>=1.25.1
+  $ pip install -r requirements.txt
 ```
 
 In the example, the standard output of the freeze command is redirected to a file. The convention is to name the file requirements.txt, but you can name it whatever you like. The requirements file format allows you to specify dependency versions using logical operators that give you a bit of flexibility If you want to update libraries with newer but still compatible versions.
@@ -3634,9 +3634,9 @@ Virtualization can be done on different levels and scopes. For example, you can 
 With this tool, you can install a separate set of libraries for each environment that you create. You can create as many as you need. One for each specific purpose, or, if you want, one for each project that you work on. It does not matter how many Python interpreter versions you have installed in your system. Each environment will have a symbolic link to only one Python interpreter. That is the one that you used to create that specific environment.
 
 ```bash
-$ cd my_project
-$ python3 -m venv myenv
-$ source myenv /bin/activate
+  $ cd my_project
+  $ python3 -m venv myenv
+  $ source myenv /bin/activate
 ```
 
 Virtual environment enables pip a separate installation of third-party libraries and applications. Using the requirement list as an input parameter, you can specify versions to be installed in your development environment. However, as good as it sounds, it is still not a complete solution for all possible dependency challenges.
@@ -3650,20 +3650,20 @@ The first file is Pipfile with a project library’s minimum requirements, usual
 When you are done with developing, updating libraries, and testing the application, you are ready to run the **lock** command. With that action, a snapshot of currently installed versions is stored in the Pipfile.lock. This file can then be used to replicate the exact environment. Such an install process is deterministic, because in case of conflicting dependencies Pipenv does not create a lock file in the first place. Instead it displays a warning message with troubleshooting information. You can use the **graph** command to investigate the dependency tree in detail and resolve the conflicts.
 
 ```bash
-$ pipenv graph
-numpy==1.17.2
-request==2019.4.13
- —get [required: Any, 
-installed: 2019.4.13]
-   —query-string [required: Any, 
-installed: 2019.4.13]
-     —public [required: Any, 
-installed: 2019.4.13]
-       —setuptools [required: Any, 
-installed: 41.2.0]
-     —setuptools [required: Any,
-installed: 41.2.0]
-<... output omitted ...>
+  $ pipenv graph
+  numpy==1.17.2
+  request==2019.4.13
+  —get [required: Any, 
+  installed: 2019.4.13]
+    —query-string [required: Any, 
+  installed: 2019.4.13]
+      —public [required: Any, 
+  installed: 2019.4.13]
+        —setuptools [required: Any, 
+  installed: 41.2.0]
+      —setuptools [required: Any,
+  installed: 41.2.0]
+  <... output omitted ...>
 ```
 
 Pipenv also offers you a simplified separation of the development and production environment. For example, if you need some library only for testing, you can add **--dev** argument to the **pip install** command. The package will be listed in a separate section of the Pipfile, guaranteeing it will not be installed in the production environment.
@@ -3803,20 +3803,20 @@ It sometimes happens that you are in the middle of work when you need to do some
 You can reapply the stash anytime using the **git stash pop** command. This is also possible in different branches than where the stash originated.
 
 ```bash
-$ git status -s
- M my_network.py
-$ git stash push -m "Work in progress"
-Saved working directory and index state On feature: Work in progress
-$ git status
-On branch feature
-nothing to commit, working tree clean
-$ git stash pop
-On branch feature
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
+  $ git status -s
+  M my_network.py
+  $ git stash push -m "Work in progress"
+  Saved working directory and index state On feature: Work in progress
+  $ git status
+  On branch feature
+  nothing to commit, working tree clean
+  $ git stash pop
+  On branch feature
+  Changes not staged for commit:
+    (use "git add <file>..." to update what will be committed)
+    (use "git checkout -- <file>..." to discard changes in working directory)
 
-        modified:   my_network.py
+          modified:   my_network.py
 ```
 
 ### Integrating Changes
@@ -3861,18 +3861,18 @@ When changes are on different lines, or even in different files, Git boldly navi
 In case of merge conflicts, Git inserts special conflict markers in the affected files and continues with the merge process. The ending result later indicates that the automatic merge has failed and that the final commit has not been done. If you run the **$git status** command, you can see that the files with conflicts have not been staged yet, but instead are marked with the unmerged flag and are waiting for your intervention. Using the **--merge** option with the **git log** command produces a log with a list of commits that conflict between the merging branches.
 
 ```bash
-$ git status
-On branch master
-You have unmerged paths.
-  (fix conflicts and run "git commit")
-  (use "git merge --abort" to abort the merge)
- 
-Unmerged paths:
-  (use "git add <file>..." to mark resolution)
- 
-        both modified: my_network.py
+  $ git status
+  On branch master
+  You have unmerged paths.
+    (fix conflicts and run "git commit")
+    (use "git merge --abort" to abort the merge)
+  
+  Unmerged paths:
+    (use "git add <file>..." to mark resolution)
+  
+          both modified: my_network.py
 
-no changes added to commit (use "git add" and/or "git commit -a")
+  no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
 If you open those files with a text editor, you can see that each problematic part is marked with the conflict markers. In the simplest and most common situation, those markers separate the code into two parts. Each part consists of the text from the relevant snapshot. The upper one is from your HEAD, the current branch, while the lower one is from the merging branch. Remember that Git performs a three-way merge starting from the common ancestor. Therefore, sometimes, you could see more than two parts, with additional ||||||| markers used.
@@ -3880,19 +3880,19 @@ If you open those files with a text editor, you can see that each problematic pa
 Merge markers:
 
 ```bash
-<<<<<<<
-Changes made on the current branch.
-|||||||
-The common ancestor version.
-=======
-Changes made on the merging branch. 
->>>>>>>
+  <<<<<<<
+  Changes made on the current branch.
+  |||||||
+  The common ancestor version.
+  =======
+  Changes made on the merging branch. 
+  >>>>>>>
 ```
 
 To resolve the conflict, you must decide and change the file to its desired state. There are a several ways to do this. You can simply use an editor, search for the conflict markers, and make all necessary modifications. Alternatively, if you know that one version of the complete file is better, you can simply choose one of the versions, called "ours" (HEAD) or "theirs" (feature branch).
 
 ```bash
-$git checkout --ours my_network.py
+  $git checkout --ours my_network.py
 ```
 
 After resolving all conflicts, you also must stage the unmerged files with **$git add** command and finalize the merge with **$git commit command**. If you are not satisfied with the merge results or you just do not have time to solve the conflicts, you can, at any time, abort the merge with the **git merge --abort** command or reset conflicted files to the last commit.
@@ -3932,16 +3932,16 @@ To check which remote servers you have configured, you can run the **git remote*
 First, you need to add a new connection to the remote repository using **git remote add** command, where you specify the repository name and source URL. Remote connections are more like shortcuts rather than actual links into other repositories. By design, Git entirely isolates the local environment for the developer and does not automatically pass any information between repositories. Instead, you must manually request the data by using the **git fetch** command. That action downloads all the data from the remote project that you do not have yet.
 
 ```bash
-$ git remote
-origin
-$ git remote add work https://github.com/company/test
-$ git remote
-origin
-work
+  $ git remote
+  origin
+  $ git remote add work https://github.com/company/test
+  $ git remote
+  origin
+  work
 
-$ git checkout --track work/feature
-Branch feature set up to track remote branch feature from origin.
-Switched to a new branch 'feature'
+  $ git checkout --track work/feature
+  Branch feature set up to track remote branch feature from origin.
+  Switched to a new branch 'feature'
 ```
 
 Now you should be able to see all published branches from the remote repository. The names of the remote branches are made up of the name of the remote connection (for example, origin) followed by "/" and then the name of a branch in that remote repository. If you switch to one of those branches, Git notifies you that you are in the detached state. That means that Git will not allow you to do any commits directly into the remote branch. You can think of remote branches as read-only branches that represent a snapshot from the last time you ran the **git fetch** command.
@@ -4292,15 +4292,15 @@ There are several tools that can handle package management. When developing for 
 If you use Python, then Pip package management tool can be used for installing the dependencies of a program. All the dependencies can be gathered in a manifest text file. Observe an example of a **requirements.txt** file that the Pip manager will use later.
 
 ```bash
-#### requirements.txt ####
-# Requirements without specific versions
-requests
-scrappy
-nose
+  #### requirements.txt ####
+  # Requirements without specific versions
+  requests
+  scrappy
+  nose
 
-# requirements with specific versions
-netaddr == 0.7.19	# must be version 0.7.19
-ncclient >= 0.6.1	# minimum version is 0.6.1
+  # requirements with specific versions
+  netaddr == 0.7.19	# must be version 0.7.19
+  ncclient >= 0.6.1	# minimum version is 0.6.1
 ```
 Once the requirements are collected, you can run the Pip package manager wherever you need to set up the environment. The installation process starts with the command **pip install -r requirements.txt**. By default, Pip searches and installs packages from the Python Package index (PyPI), but it can also be used to integrate with a specific code repository. For isolating dependencies in Python, you can use Virtualenv tool. Virtualenv creates an environment that has its own installation directories and does not share libraries with other virtualenv environments.
 
@@ -4579,20 +4579,20 @@ Once the image is built locally, it can be pushed to a remote registry using the
 As an example of application that will be containerized, observe the following code.
 
 ```python
-from flask import Flask
-import os
+  from flask import Flask
+  import os
 
-app = Flask(__name__)
-
-
-@app.route("/")
-def home(): 
-    course = os.environ['COURSE']
-    return f'Welcome to Cisco DevNet {course}!'
+  app = Flask(__name__)
 
 
-if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+  @app.route("/")
+  def home(): 
+      course = os.environ['COURSE']
+      return f'Welcome to Cisco DevNet {course}!'
+
+
+  if __name__ == "__main__":
+      app.run(debug=True, host='0.0.0.0')
 ```
 It is a very simple web application that is written in Python Flask framework. The functionality that it has is printing a message that is composed from one system environment variable, when a user opens the web page. Besides the application code, the code repository includes the Dockerfile with the instructions on how to prepare this application into container. It also includes a **requirements.txt** file that the Dockerfile uses to install the Flask dependency into the image.
 
@@ -4609,19 +4609,19 @@ As mentioned before, **ENTRYPOINT** and **CMD** can be used interchangeably. In 
 Observe the image being built using the tag “example-app”.
 
 ```bash
-➜  docker build -t example-app .
-Sending build context to Docker daemon  4.096kB
-Step 1/8 : FROM python:3.8
- ---> d6a7b0694364
-Step 2/8 : ENV COURSE DEVCORE
- ---> Running in e2cd1d068a69
-<…output omitted …>
-Step 8/8 : CMD [ "program.py" ]
- ---> Running in 81b848208485
-Removing intermediate container 81b848208485
- ---> a87dd285f32a
-Successfully built a87dd285f32a
-Successfully tagged example-app:latest
+  ➜  docker build -t example-app .
+  Sending build context to Docker daemon  4.096kB
+  Step 1/8 : FROM python:3.8
+  ---> d6a7b0694364
+  Step 2/8 : ENV COURSE DEVCORE
+  ---> Running in e2cd1d068a69
+  <…output omitted …>
+  Step 8/8 : CMD [ "program.py" ]
+  ---> Running in 81b848208485
+  Removing intermediate container 81b848208485
+  ---> a87dd285f32a
+  Successfully built a87dd285f32a
+  Successfully tagged example-app:latest
 ```
 
 The command was executed in the current folder because the “.” (dot) was used for the path.
@@ -4687,26 +4687,26 @@ A tmpfs mount is stored in the host system's memory only and is never written to
 A Volume would typically be included in a Dockerfile when defining an image. For example, if you find the official MySQL image on the Docker Hub, it will have a line that says **VOLUME** **/var/lib/mysql** in the Dockerfile. When you run the MySQL container, a new volume will be created. You can list the volumes using the command **docker volume ls**. Inspect the next example.
 
 ```bash
-docker volume ls     
-DRIVER              VOLUME NAME
-local               0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292
+  docker volume ls     
+  DRIVER              VOLUME NAME
+  local               0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292
 ```
 
 You can list additional information about the volume using the following command:
 
 ```bash
-docker volume inspect 0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292
-[
-    {
-        "CreatedAt": "2019-11-11T10:54:38+01:00,"
-        "Driver": "local,"
-        "Labels": null,
-        "Mountpoint": "/var/lib/docker/volumes/0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292/_data,"
-        "Name": "0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292,"
-        "Options": null,
-        "Scope": "local"
-    }
-]
+  docker volume inspect 0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292
+  [
+      {
+          "CreatedAt": "2019-11-11T10:54:38+01:00,"
+          "Driver": "local,"
+          "Labels": null,
+          "Mountpoint": "/var/lib/docker/volumes/0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292/_data,"
+          "Name": "0a7fc5b9aa490e06edd95fb7e7693c03b3061ee75cf7abb2056f45d20abee292,"
+          "Options": null,
+          "Scope": "local"
+      }
+  ]
 ```
 
 The interesting bit here is the Mountpoint tag. It shows you where on the host file system the volume was mounted. If you navigated to that path, you would find the mysql database data, which is stored inside the container under the path **/var/lib/mysql**. The data outlives the executable. If you stop and remove the container, the Volume will remain there.
@@ -4840,19 +4840,19 @@ The issued command created a Deployment Controller, which is a higher-level conc
 To inspect whether your request was successful, you can retrieve information about the deployed objects using the **kubectl get** command. If the deployment was successful, you should see a Pod and ReplicaSet on your cluster. Observe how to query for this information.
 
 ```bash
-kubectl get pods
-NAME                               READY   STATUS    RESTARTS   AGE
-devnet-example-6bf9b76dbd-445wc  1/1        Running    0             2m6s
-devnet-example-6bf9b76dbd-5knnx   1/1        Running    0             2m6s
-devnet-example-6bf9b76dbd-kbqm5  1/1        Running    0             2m6s
+  kubectl get pods
+  NAME                               READY   STATUS    RESTARTS   AGE
+  devnet-example-6bf9b76dbd-445wc  1/1        Running    0             2m6s
+  devnet-example-6bf9b76dbd-5knnx   1/1        Running    0             2m6s
+  devnet-example-6bf9b76dbd-kbqm5  1/1        Running    0             2m6s
 ```
 
 There are three Pods with the status 'Running', meaning that they are working. Examine the state of the ReplicaSet. Use the following command:
 
 ```bash
-kubectl get rs
-NAME                          DESIRED   CURRENT   READY   AGE
-devnet-example-6bf9b76dbd   3               3           3          1h
+  kubectl get rs
+  NAME                          DESIRED   CURRENT   READY   AGE
+  devnet-example-6bf9b76dbd   3               3           3          1h
 ```
 
 As expected, there is a single ReplicaSet object that handles three pods, shown in the output. All three are ready, but you already know that since you have inspected the pods before.
@@ -4864,25 +4864,25 @@ So, there are three active pods, which means you should be able to access the co
 To expose the application to the outside world, you will need to create a Service object. A service object is not useful only for exposing an application to the external network, but also is used internally. As you know, the Pods are mortal, they can die and respawn on another location and by doing that they also change their IP addresses. A Service exposes a single address that other containers can rely on that it will not change. There are multiple types of Services that can offer service exposure such as NodePort, ClusterIP, and LoadBalancer. You will use the LoadBalancer type in the next example. You will hear more about the Service objects later, now, observe the command for exposing the deployed application using a cloud provider public IP address of a load balancer.
 
 ```bash
-kubectl expose deployment devnet-example --type="LoadBalancer" --name devnet-svc
-service/devnet-svc exposed
+  kubectl expose deployment devnet-example --type="LoadBalancer" --name devnet-svc
+  service/devnet-svc exposed
 ```
 
 When the request for this new service is processed, you may get the state of the service by issuing the following command:
 
 ```bash
-kubectl get service               
-NAME          TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)                AGE
-devnet-svc   LoadBalancer     10.0.6.246      34.89.63.240      5000:32167/TCP   13m
-kubernetes   ClusterIP            10.0.0.1          <none>             443/TCP               27h
+  kubectl get service               
+  NAME          TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)                AGE
+  devnet-svc   LoadBalancer     10.0.6.246      34.89.63.240      5000:32167/TCP   13m
+  kubernetes   ClusterIP            10.0.0.1          <none>             443/TCP               27h
 ```
 
 It may take a while for the external IP to show up if you are using a cloud provided K8s cluster, since a load balancer needs to be provisioned first. When the cluster is ready, it will show you the external IP on which you can access the deployed container.
 
 ```bash
-curl 34.89.63.240:5000
-Welcome to Cisco DevNet DEVCORE!
-running on devnet-example-6bf9b76dbd-5knnx
+  curl 34.89.63.240:5000
+  Welcome to Cisco DevNet DEVCORE!
+  running on devnet-example-6bf9b76dbd-5knnx
 ```
 
 The deployed application is now publicly available over the load balancer IP address. Even if the Pod is moved and its internal address changes, a new one will still be available under the same service IP address as the figure displays. The request to that IP address is also load balanced between the three Pods.
@@ -4892,20 +4892,20 @@ The deployed application is now publicly available over the load balancer IP add
 To get more information about the deployment, such as on which worker nodes your pods are running, use the following command:
 
 ```bash
-kubectl describe pod devnet-example-6bf9b76dbd-5knnx
-Name:           devnet-example-6bf9b76dbd-5knnx
-Namespace:      default
-Priority:       0
-Node:           gke-devnet-cluster-default-pool-ee4f7bd9-9kkj/10.154.0.11
-Start Time:     Wed, 06 Nov 2019 23:30:13 +0100
-Labels:         pod-template-hash=6bf9b76dbd
-run=devnet-example
-Annotations:    kubernetes.io/limit-ranger: LimitRanger plugin set: cpu request for container devnet-example
-Status:         Running
-IP:             10.20.0.9
-IPs:            <none>
-Controlled By:  ReplicaSet/devnet-example-6bf9b76dbd
-<"... output omitted "...>
+  kubectl describe pod devnet-example-6bf9b76dbd-5knnx
+  Name:           devnet-example-6bf9b76dbd-5knnx
+  Namespace:      default
+  Priority:       0
+  Node:           gke-devnet-cluster-default-pool-ee4f7bd9-9kkj/10.154.0.11
+  Start Time:     Wed, 06 Nov 2019 23:30:13 +0100
+  Labels:         pod-template-hash=6bf9b76dbd
+  run=devnet-example
+  Annotations:    kubernetes.io/limit-ranger: LimitRanger plugin set: cpu request for container devnet-example
+  Status:         Running
+  IP:             10.20.0.9
+  IPs:            <none>
+  Controlled By:  ReplicaSet/devnet-example-6bf9b76dbd
+  <"... output omitted "...>
 ```
 
 ### Pods and Controllers
@@ -4919,32 +4919,32 @@ Until now, you deployed the application using **kubectl run** command, which giv
 Here you will find examples that will set you on the path of writing YAML manifests for different deployment objects, but for all the properties and examples you will have look into the documentation (http://kubernetes.io/docs/reference/). Since some of the Pods exist from the previous CLI deployments, you can export a YAML descriptor for reference using the **kubectl get** command.
 
 ```bash
-kubectl get pod devnet-example-6bf9b76dbd-5knnx -o yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  annotations:
-    kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu request for container
-      devnet-example'
-  creationTimestamp: "2019-11-06T21:54:23Z"
-  generateName: devnet-example-6bf9b76dbd-
-  labels:
-    pod-template-hash: 6bf9b76dbd
-    run: devnet-example
-  name: devnet-example-6bf9b76dbd-5knnx
-  <"... output omitted "...>
-spec:
-  containers:
-  - image: gcr.io/devnet-258113/devnet-flask-example:latest
-    imagePullPolicy: Always
-    name: devnet-example
-    ports:
-    - containerPort: 5000
-      protocol: TCP
-    resources:
-      requests:
-        cpu: 100m
-<... output omitted ...>
+  kubectl get pod devnet-example-6bf9b76dbd-5knnx -o yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu request for container
+        devnet-example'
+    creationTimestamp: "2019-11-06T21:54:23Z"
+    generateName: devnet-example-6bf9b76dbd-
+    labels:
+      pod-template-hash: 6bf9b76dbd
+      run: devnet-example
+    name: devnet-example-6bf9b76dbd-5knnx
+    <"... output omitted "...>
+  spec:
+    containers:
+    - image: gcr.io/devnet-258113/devnet-flask-example:latest
+      imagePullPolicy: Always
+      name: devnet-example
+      ports:
+      - containerPort: 5000
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 100m
+  <... output omitted ...>
 ```
 
 As you can see, there are a lot of properties for a single Pod. Luckily, when deploying a new Pod, you do not need to specify them all. Most of them are automatically added by the K8s system. Observe how to prepare a YAML descriptor for a Pod. Create a file named devnet-pod.yaml and add the following content.
@@ -4974,14 +4974,14 @@ If you go through Deployment YAML descriptor, you can see it is similar to the e
 So, when you execute the **kubectl create** command, the Deployment will create a ReplicaSet and three Pods. You have seen this in the previous example when you used the **kubectl run** CLI command. Now, inspect what happens if you remove a Pod.
 
 ```bash
-kubectl delete pod devnet-deploy-7bcbd9bdfd-plmc8
-pod "devnet-deploy-7bcbd9bdfd-plmc8" deleted
+  kubectl delete pod devnet-deploy-7bcbd9bdfd-plmc8
+  pod "devnet-deploy-7bcbd9bdfd-plmc8" deleted
 
-kubectl get pod
-NAME                             READY   STATUS    RESTARTS   AGE
-devnet-deploy-7bcbd9bdfd-27hcd   1/1         Running    0           2m6s
-devnet-deploy-7bcbd9bdfd-9n8vz   1/1         Running    0            3s
-devnet-deploy-7bcbd9bdfd-wzxf5   1/1         Running    0            2m6s
+  kubectl get pod
+  NAME                             READY   STATUS    RESTARTS   AGE
+  devnet-deploy-7bcbd9bdfd-27hcd   1/1         Running    0           2m6s
+  devnet-deploy-7bcbd9bdfd-9n8vz   1/1         Running    0            3s
+  devnet-deploy-7bcbd9bdfd-wzxf5   1/1         Running    0            2m6s
 ```
 
 After the Pod was deleted, the ReplicaSet controller automatically replaced it. You can see that the new one has been running for only a couple of seconds. It is also not the same Pod as before, as shown by the name of the Pod. This is what a ReplicaSet controller provides you; no matter what happens with the controlled Pods, it will maintain the defined number until it has the resources on the cluster. But if this is the function of the ReplicaSet, why would you not create a ReplicaSet descriptor instead of Deployment?
@@ -4989,9 +4989,9 @@ After the Pod was deleted, the ReplicaSet controller automatically replaced it. 
 The Deployment Controller is useful when it is time to update the application. Eventually you will make some changes on the application containers, either to introduce bug fixes or new features. The Deployment controller, sitting on top of ReplicaSet, simplifies application updates. Observe how easy it is to change a version of the container image.
 
 ```bash
-kubectl set image deployment devnet-deploy devnet-container=gcr.io/devnet-258113/devnet-flask-example:1.1 
+  kubectl set image deployment devnet-deploy devnet-container=gcr.io/devnet-258113/devnet-flask-example:1.1 
 
-deployment.extensions/devnet-deploy image updated
+  deployment.extensions/devnet-deploy image updated
 ```
 
 These steps are all that you must do to update the application running in Pods, the K8s engine will take care of the rest. Behind the scenes K8s is doing a rolling update. It deploys a new ReplicaSet controller with the new container image, as shown in the figure.
@@ -5001,35 +5001,35 @@ These steps are all that you must do to update the application running in Pods, 
 It slowly subtracts the replicas from the old ReplicaSet while adding the Pods with updated images on the new ReplicaSet. The result is that the old controller stays without any managed Pods, and the new ReplicaSet manages all of them, as seen in the next element.
 
 ```bash
-kubectl get rs 
-NAME                                     DESIRED   CURRENT   READY   AGE
-devnet-deploy-545d96b59f   3            3         3           49s
-devnet-deploy-7bcbd9bdfd   0             0         0           5h7m
+  kubectl get rs 
+  NAME                                     DESIRED   CURRENT   READY   AGE
+  devnet-deploy-545d96b59f   3            3         3           49s
+  devnet-deploy-7bcbd9bdfd   0             0         0           5h7m
 ```
 
 The old ReplicaSet controller is now inactive, which is ok because you did not create it manually, it is a referenced property of the Deployment. You could also follow the rollout using the next command, which gives you more insight into the timeline of the performed steps.
 
 ```bash
-kubectl rollout status deployment devnet-deploy                                                             
-Waiting for deployment "devnet-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
-Waiting for deployment "devnet-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
-Waiting for deployment "devnet-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
-Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
-Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
-Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
-Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
-Waiting for deployment "devnet-deploy" rollout to finish: 1 old replicas are pending termination...
-Waiting for deployment "devnet-deploy" rollout to finish: 1 old replicas are pending termination...
-Waiting for deployment "devnet-deploy" rollout to finish: 1 old replicas are pending termination...
-deployment "devnet-deploy" successfully rolled out
+  kubectl rollout status deployment devnet-deploy                                                             
+  Waiting for deployment "devnet-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
+  Waiting for deployment "devnet-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
+  Waiting for deployment "devnet-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
+  Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
+  Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
+  Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
+  Waiting for deployment "devnet-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
+  Waiting for deployment "devnet-deploy" rollout to finish: 1 old replicas are pending termination...
+  Waiting for deployment "devnet-deploy" rollout to finish: 1 old replicas are pending termination...
+  Waiting for deployment "devnet-deploy" rollout to finish: 1 old replicas are pending termination...
+  deployment "devnet-deploy" successfully rolled out
 ```
 
 When using the Deployment controller, it is simple to roll back to the previous version. To execute the rollback changes, the command is below:
 
 ```bash
-kubectl rollout undo deployment devnet-deploy
+  kubectl rollout undo deployment devnet-deploy
 
-deployment.extensions/devnet-deploy rolled back
+  deployment.extensions/devnet-deploy rolled back
 ```
 Controllers are basically objects that encapsulate other, simpler objects, such as Pods, to extend the basic functionalities with the ones that a controller offers.
 
@@ -5061,9 +5061,9 @@ Observe the following YAML file for creating a new LoadBalancer service.
 The service definition is using a selector to match the deployment object that this LoadBalancer service will expose. In this case, since you already created a Deployment that is named **devnet-deploy**, you can use an **app** selector with the name of that deployment. You create this service using the command **kubectl create**. After you create it, new load balancer will be provisioned on the K8s cluster provider and an external IP address should be dedicated to the deployed application. You will access applications running in Pods through a single IP address and the requests will be load balanced across the set of Pods (if replicaSet is used). You can examine the services running on your cluster using the command **kubectl get service**. Inspect the next output.
 
 ```bash
-kubectl get services
-NAME                     TYPE                 CLUSTER-IP   EXTERNAL-IP      PORT(S)            AGE
-devnet-lb-service   LoadBalancer   10.0.9.174      35.246.107.150    80:30095/TCP   2m3s
+  kubectl get services
+  NAME                     TYPE                 CLUSTER-IP   EXTERNAL-IP      PORT(S)            AGE
+  devnet-lb-service   LoadBalancer   10.0.9.174      35.246.107.150    80:30095/TCP   2m3s
 ```
 
 The field EXTERNAL-IP will store the public IP address that you can use to access the attached application deployment. It can take couple of minutes for provisioning a new load balancer on the infrastructure. Note that there is a CLUSTER-IP address available and a Node port (30095). The three services types, ClusterIP, NodePort, and LoadBalancer are additive. Additive means that each one creates the one before it to provide the connectivity to the running containers inside Pods.
@@ -5238,24 +5238,24 @@ Before you can start enabling application hosting on the Cisco Catalyst 9000 Ser
 Smart Licensing is also required for the Cisco Catalyst 9000 series platforms. DNA-Advantage licensing is required to enable Application Hosting on the network device.
 
 ```bash
-CAT9K# conf t
-CAT9K(config)# license boot level network-advantage addon dna-advantage
-% Reboot the switch to invoke the highest activated License level 
-...
-CAT9K# write memory 
-Building configuration.
-[OK]                     
-#reload
-...
-CAT9Kh# show version     
-...
-Technology Package License Information:
------------------------------------------------------------------                                                                                        
-Technology-package                   Technology-package   
-Current             Type             Next reboot                      
-------------------------------------------------------------------                       
-network-advantage   Smart License        network-advantage 
-dna-advantage       Subscription Smart License     dna-advantage
+  CAT9K# conf t
+  CAT9K(config)# license boot level network-advantage addon dna-advantage
+  % Reboot the switch to invoke the highest activated License level 
+  ...
+  CAT9K# write memory 
+  Building configuration.
+  [OK]                     
+  #reload
+  ...
+  CAT9Kh# show version     
+  ...
+  Technology Package License Information:
+  -----------------------------------------------------------------                                                                                        
+  Technology-package                   Technology-package   
+  Current             Type             Next reboot                      
+  ------------------------------------------------------------------                       
+  network-advantage   Smart License        network-advantage 
+  dna-advantage       Subscription Smart License     dna-advantage
 ```
 
 The Application Hosting framework is not enabled by default.
@@ -5263,18 +5263,18 @@ The Application Hosting framework is not enabled by default.
 Following is an example of the Cisco IOS XE CLI configuration to set up Application Hosting infrastructure:
 
 ```bash
-cat9000# conf t
-cat9000(config)# iox
-cat9000(config)# exit
-cat9000# show iox-service
-...
-IOx Infrastructure Summary:
----------------------------
-IOx service (CAF)    : Running
-IOx service (HA)     : Running
-IOx service (IOxman) : Running
-Libvirtd             : Running
-Dockerd              : Running
+  cat9000# conf t
+  cat9000(config)# iox
+  cat9000(config)# exit
+  cat9000# show iox-service
+  ...
+  IOx Infrastructure Summary:
+  ---------------------------
+  IOx service (CAF)    : Running
+  IOx service (HA)     : Running
+  IOx service (IOxman) : Running
+  Libvirtd             : Running
+  Dockerd              : Running
 ```
 
 ### Deploying Application
@@ -5286,8 +5286,8 @@ In the following example, the application to be used is called Perf3. Perf3 (iPe
 Observe how to generate a Docker tarball file in the following example:
 
 ```bash
-#docker pull mlabbe/iperf3
-#docker save mlabbe/iperf3:latest -o iperf3.tar
+  #docker pull mlabbe/iperf3
+  #docker save mlabbe/iperf3:latest -o iperf3.tar
 ```
 
 The proper interface needs to be configured for the application to work.
@@ -5299,14 +5299,14 @@ The Docker tar needs to be copied to the networking device (usbflash1).
 Copying and installation of the app:
 
 ```bash
-cat9k# copy scp: usbflash1: vrf Mgmt-vrf
-cat9k# app-hosting install appid iperf package usbflash1:<path to tar file
-cat9k# app-hosting activate appid iperf
-cat9k# app-hosting start appid iperf
-cat9k# show app-hosting list
-   App id                      State
---------------------------------------------------
-   iperf                      RUNNING
+  cat9k# copy scp: usbflash1: vrf Mgmt-vrf
+  cat9k# app-hosting install appid iperf package usbflash1:<path to tar file
+  cat9k# app-hosting activate appid iperf
+  cat9k# app-hosting start appid iperf
+  cat9k# show app-hosting list
+    App id                      State
+  --------------------------------------------------
+    iperf                      RUNNING
 ```
 
 The application can also be stopped and installed simply with the CLI.
@@ -5314,9 +5314,9 @@ The application can also be stopped and installed simply with the CLI.
 Stopping and uninstallation:
 
 ```bash
-cat9k# app-hosting stop appid iperf
-cat9k# app-hosting deactivate appid iperf
-cat9k# app-hosting uninstall appid iperf
+  cat9k# app-hosting stop appid iperf
+  cat9k# app-hosting deactivate appid iperf
+  cat9k# app-hosting uninstall appid iperf
 ```
 
 # 9 Understanding Distributed Systems
@@ -5389,11 +5389,11 @@ In relation to load balancing, access control lists (ACLs) are used to test some
 In HAProxy terminology, the back end is a set of servers that receive forwarded requests from the load balancer. To describe a back end, you specify the load-balancing algorithm and a list of servers together with their ports. A back end can contain one or many servers in it. Adding more servers to your back end increases the potential load capacity because the load can spread over more servers. Observe the following example of a simple back-end configuration in HAProxy.
 
 ```bash
-backend web-backend
-   balance roundrobin
-   mode http
-   server web1 web1.example.com:80 check
-   server web2 web2.example.com:80 check
+  backend web-backend
+    balance roundrobin
+    mode http
+    server web1 web1.example.com:80 check
+    server web2 web2.example.com:80 check
 ```
 
 The first line with the keyword ***balance*** specifies the load-balancing algorithm. A round robin algorithm is the default and the simplest one. With the round robin algorithm, the requests are allocated to a single server from a configured back end. The servers are allocated in a random or rotating sequential manner. For example, the first request gets the IP address of server 1, the second request gets the IP address of server 2, and so on, with requests starting again at server 1 when all servers have been assigned an access request during a cycle. There is also the ***leastconn*** option that selects the server with the least number of connections to serve the request, and the ***source*** option for a balancing type, which selects the server based on a hash of the source IP. The ***source*** method ensures that a user always connects to the same server from a set of servers.
@@ -5427,14 +5427,14 @@ Using Layer 7 allows the load balancer to forward requests to different back-end
 As discussed previously, a front-end configuration needs to be provided to perform handling of the traffic toward the back ends. A sample of front-end configuration could look like this:
 
 ```bash
-frontend http
-  bind *:80
-  mode http
+  frontend http
+    bind *:80
+    mode http
 
-  acl url_img path_beg /images
-  use_backend img-backend if url_img
+    acl url_img path_beg /images
+    use_backend img-backend if url_img
 
-  default_backend web-backend
+    default_backend web-backend
 ```
 This configures a front end named **http**, which becomes responsible for handling all incoming traffic on port 80. An access list is used to match user requests and redirect them to the desired back end. In this example, if a user's request URL begins with the ***/images*** string, it is redirected to the servers handled by ***img-backend***.
 
@@ -5503,60 +5503,60 @@ When talking about APIs, there are several directions where the API can be expos
 Most of the time, when using remote API calls to a system, that back-end system will need authentication details to serve your requests. This is typically done by generating an access token which is used throughout a period of API calls until it expires. When a token expires, a new one must be generated. For Cisco DNA, the token can be generated using the following resource method and URL.
 
 ```bash
-POST <cluster-ip>/dna/system/api/v1/auth/token
+  POST <cluster-ip>/dna/system/api/v1/auth/token
 ```
 
 Together with the resource URL, a basic authorization header with username and password must be provided. If a request was successful, meaning that the request was authorized with the correct credentials, a token is returned. The token is serialized in a JSON message, which can be easily interpreted by any programming language. The successful response is received with an HTTP response code 200, and a JSON message with a token similar like this:
 
 ```json
-{ 
-    "Token": "eyJ0eXA ... O5uEMR-tc“
-}
+  { 
+      "Token": "eyJ0eXA ... O5uEMR-tc“
+  }
 ```
 
 This token is used inside X-Auth-Token header with the next request you perform against the REST API of the Cisco DNA Center. For example, the next request returns the Cisco DNA Center Device Inventory, which is used for viewing information about the devices added to the product.
 
 ```bash
-GET <cluster-ip>/dna/intent/api/v1/network-device
+  GET <cluster-ip>/dna/intent/api/v1/network-device
 ```
 
 The response from the previous GET request is a JSON object with a list of items. The items are device objects with all the parameters that the back-end system knows about the device. Examine the output of the previous query.
 
 ```json
-{
-    "response": [
-        {
-            "family": "Routers",
-            "type": "Cisco ASR 1001-X Router",
-            "errorCode": null,
-            "location": null,
-            "macAddress": "00:c8:8b:80:bb:00",
-            "hostname": "asr1001-x.abc.inc",
-            "role": "BORDER ROUTER",
-            "lastUpdateTime": 1576499161959,
-            "serialNumber": "FXS1932Q1SE",
-            "softwareVersion": "16.3.2",
-            "locationName": null,
-            "upTime": "38 days, 12:12:12.99",
-            <... output omitted ...>
-            "instanceUuid": "1cfd383a-7265-47fb-96b3-f069191a0ed5",
-            "id": "1cfd383a-7265-47fb-96b3-f069191a0ed5"
-        },
-        {
-            "family": "Switches and Hubs",
-            "type": "Cisco Catalyst 9300 Switch",
-            "errorCode": null,
-            "location": null,
-            "macAddress": "f8:7b:20:67:62:80",
-            "hostname": "cat_9k_1.abc.inc",
-            "role": "ACCESS",
-            "lastUpdateTime": 1576499308577,
-            "serialNumber": "FCW2136L0AK",
-            <... output omitted ...>
-        }
-    ],
-    "version": "1.0"
-}
+  {
+      "response": [
+          {
+              "family": "Routers",
+              "type": "Cisco ASR 1001-X Router",
+              "errorCode": null,
+              "location": null,
+              "macAddress": "00:c8:8b:80:bb:00",
+              "hostname": "asr1001-x.abc.inc",
+              "role": "BORDER ROUTER",
+              "lastUpdateTime": 1576499161959,
+              "serialNumber": "FXS1932Q1SE",
+              "softwareVersion": "16.3.2",
+              "locationName": null,
+              "upTime": "38 days, 12:12:12.99",
+              <... output omitted ...>
+              "instanceUuid": "1cfd383a-7265-47fb-96b3-f069191a0ed5",
+              "id": "1cfd383a-7265-47fb-96b3-f069191a0ed5"
+          },
+          {
+              "family": "Switches and Hubs",
+              "type": "Cisco Catalyst 9300 Switch",
+              "errorCode": null,
+              "location": null,
+              "macAddress": "f8:7b:20:67:62:80",
+              "hostname": "cat_9k_1.abc.inc",
+              "role": "ACCESS",
+              "lastUpdateTime": 1576499308577,
+              "serialNumber": "FCW2136L0AK",
+              <... output omitted ...>
+          }
+      ],
+      "version": "1.0"
+  }
 ```
 
 Data in such format can be used in any application to read the values and present them in a customized way. Your custom dashboard back-end code could make such REST calls to get data in a raw JSON format, make any necessary transformations, and then use any kind of web design technique to present the data intuitively on the front-end customized web pages.
@@ -5568,18 +5568,18 @@ If you are using Python on the back end of your own custom application, you coul
 The corresponding Python integration code can be summed up as follows:
 
 ```python
-import requests
+  import requests
 
-base_url = 'https://<IP or hostname>'
-r = requests.post(f'{base_url}/dna/system/api/v1/auth/token',
-                         auth=('<USERNAME>', '<PASSWORD>'))
-r.raise_for_status()
-token = r.json()['Token']
+  base_url = 'https://<IP or hostname>'
+  r = requests.post(f'{base_url}/dna/system/api/v1/auth/token',
+                          auth=('<USERNAME>', '<PASSWORD>'))
+  r.raise_for_status()
+  token = r.json()['Token']
 
-headers = {'X-Auth-Token': token}
-r = requests.get(f'{base_url}/dna/intent/api/v1/site-health', headers=headers)
-r.raise_for_status()
-sites = r.json()['response']
+  headers = {'X-Auth-Token': token}
+  r = requests.get(f'{base_url}/dna/intent/api/v1/site-health', headers=headers)
+  r.raise_for_status()
+  sites = r.json()['response']
 ```
 
 The above code is using the get method of the requests module to retrieve data about all the sites. The method expects the resource URL and takes the authorization token, which must be obtained beforehand by calling the ***post*** method. A typical approach would be to obtain the token once, store the token in memory, and use it throughout the calls. The information can be then used on the front end to display the information to the user.
@@ -5589,16 +5589,16 @@ This is just one of the examples for integrating with a remote Cisco DNA Center.
 Integration is usually done in the back end, so it is easier to use software development kits (SDKs); Cisco Intersight API requires request signing, which many HTTP libraries do not yet support:
 
 ```python
-from intersight.intersight_api_client import IntersightApiClient
-import intersight.apis.network_element_summary_api as summary_api
+  from intersight.intersight_api_client import IntersightApiClient
+  import intersight.apis.network_element_summary_api as summary_api
 
-client = IntersightApiClient(
-    host='https://intersight.com/api/v1',
-    private_key='<KEYFILE>',
-    api_key_id='<ID>'
-)
-api = summary_api.NetworkElementSummaryApi(client)
-summary = api.network_element_summaries_get()
+  client = IntersightApiClient(
+      host='https://intersight.com/api/v1',
+      private_key='<KEYFILE>',
+      api_key_id='<ID>'
+  )
+  api = summary_api.NetworkElementSummaryApi(client)
+  summary = api.network_element_summaries_get()
 ```
 
 Once you know what kind of data you want to present on the custom dashboard, you can use the documentation of the product you want to integrate with to get the details of how to construct the REST API calls and the format of the payloads you need to send to modify the state of the application. Your custom dashboard can integrate to multiple services at the same time. This way you can provide a single pane of glass to all services from the same dashboard to users, including only the functionalities that an organization needs.
@@ -5966,17 +5966,17 @@ As the first step, use **pip** to install the **pyagent** command, required Pyth
 Next, you must create a configuration file for the Python Agent. This file includes a node name, as well as the application and tier it belongs to. It also contains credentials, location, and other information necessary for establishing a connection to the controller. The following is a configuration file skeleton.
 
 ```bash
-[agent]
-app = <app_name>
-tier = <tier_name>
-node = <node_name>
+  [agent]
+  app = <app_name>
+  tier = <tier_name>
+  node = <node_name>
 
-[controller]
-host = <controller_host>
-port = <controller_port>
-ssl = on|off 
-account = <your AppDynamics controller account name>
-accesskey = <your AppDynamics controller account access key>
+  [controller]
+  host = <controller_host>
+  port = <controller_port>
+  ssl = on|off 
+  account = <your AppDynamics controller account name>
+  accesskey = <your AppDynamics controller account access key>
 ```
 
 Alternatively, you can use a wizard to generate and download the agent package. This package already contains a populated configuration file. To access the wizard, click Getting Started on the controller user interface.
@@ -6365,24 +6365,24 @@ The create_service_profile() method uses the configConfMo API method to configur
 Finally, implement the logic that configures the service profiles from the command-line arguments.
 
 ```python
-if __name__ == "__main__":
+  if __name__ == "__main__":
 
-    # Parse command line arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--template', required=True)
-    parser.add_argument('--prefix', required=True)
-    parser.add_argument('--count', type=int, default=1)
-    args = parser.parse_args()
+      # Parse command line arguments
+      parser = argparse.ArgumentParser()
+      parser.add_argument('--template', required=True)
+      parser.add_argument('--prefix', required=True)
+      parser.add_argument('--count', type=int, default=1)
+      args = parser.parse_args()
 
-    ucs = UCS(HOST, USERNAME, PASSWORD)
-    ucs.login()
-    if args.template in ucs.get_service_profile_templates():
-        for i in range(args.count):
-            name = f'{args.prefix}{str(i)}'
-            response = ucs.create_service_profile(name, args.template)
-            if response[0] == 200 and 'errorCode' not in str(response[1]):
-                print(f'The service profile {name} created successfully.')
-    ucs.logout()
+      ucs = UCS(HOST, USERNAME, PASSWORD)
+      ucs.login()
+      if args.template in ucs.get_service_profile_templates():
+          for i in range(args.count):
+              name = f'{args.prefix}{str(i)}'
+              response = ucs.create_service_profile(name, args.template)
+              if response[0] == 200 and 'errorCode' not in str(response[1]):
+                  print(f'The service profile {name} created successfully.')
+      ucs.logout()
 ```
 
 The code for parsing command-line arguments uses the argparse Python module. The code then establishes the connection, retrieves the templates, configures the service profiles, and logs out from the Cisco UCS Manager API.
@@ -6396,10 +6396,10 @@ There are two templates: template-app and template-web.
 Execute the code in the terminal.
 
 ```bash
-~/$ python application.py --template template-web --prefix web-server --count 3
-The service profile web-server0 created successfully.
-The service profile web-server1 created successfully.
-The service profile web-server2 created successfully.
+  ~/$ python application.py --template template-web --prefix web-server --count 3
+  The service profile web-server0 created successfully.
+  The service profile web-server1 created successfully.
+  The service profile web-server2 created successfully.
 ```
 
 You need to pass two required arguments: template and prefix. The count argument is optional. In this case, there will be three service profiles with the prefix web-server and these service profiles will use the service profile template template-web.
@@ -6433,9 +6433,9 @@ Terraform uses its own configuration language:
 * The basic syntax is as follows:
 
 ```bash
-<block type> "<block label>" "<block label>" {
-  <identifier> = <expression>
-}
+  <block type> "<block label>" "<block label>" {
+    <identifier> = <expression>
+  }
 ```
 
 Blocks are defined with their block type and label. Blocks are used to define the configuration object. Blocks have a block type, which defines the type and can have zero or more labels. The block body begins with "{" and ends with "}". Between the curly braces, you can find the block body, which defines different parameters.
@@ -6470,42 +6470,42 @@ The figure shows how Terraform matches providers with resources.
 Terraform is controlled through CLI commands. There is only one basic command to control Terraform: **terraform**. You can see the list of options by executing this command without any options.
 
 ```bash
-~/$ terraform
-Usage: terraform [-version] [-help] <command> [args]
+  ~/$ terraform
+  Usage: terraform [-version] [-help] <command> [args]
 
-The available commands for execution are listed below.
-The most common, useful commands are shown first, followed by
-less common or more advanced commands. If you're just getting
-started with Terraform, stick with the common commands. For the
-other commands, please read the help and docs before usage.
+  The available commands for execution are listed below.
+  The most common, useful commands are shown first, followed by
+  less common or more advanced commands. If you're just getting
+  started with Terraform, stick with the common commands. For the
+  other commands, please read the help and docs before usage.
 
-Common commands:
-    apply              Builds or changes infrastructure
-    console            Interactive console for Terraform interpolations
-    destroy            Destroy Terraform-managed infrastructure
-    env                Workspace management
-    fmt                Rewrites config files to canonical format
-    get                Download and install modules for the configuration
-    graph              Create a visual graph of Terraform resources
-    import             Import existing infrastructure into Terraform
-    init               Initialize a Terraform working directory
-    output             Read an output from a state file
-    plan               Generate and show an execution plan
-    providers          Prints a tree of the providers used in the configuration
-    refresh            Update local state file against real resources
-    show               Inspect Terraform state or plan
-    taint              Manually mark a resource for recreation
-    untaint            Manually unmark a resource as tainted
-    validate           Validates the Terraform files
-    version            Prints the Terraform version
-    workspace          Workspace management
+  Common commands:
+      apply              Builds or changes infrastructure
+      console            Interactive console for Terraform interpolations
+      destroy            Destroy Terraform-managed infrastructure
+      env                Workspace management
+      fmt                Rewrites config files to canonical format
+      get                Download and install modules for the configuration
+      graph              Create a visual graph of Terraform resources
+      import             Import existing infrastructure into Terraform
+      init               Initialize a Terraform working directory
+      output             Read an output from a state file
+      plan               Generate and show an execution plan
+      providers          Prints a tree of the providers used in the configuration
+      refresh            Update local state file against real resources
+      show               Inspect Terraform state or plan
+      taint              Manually mark a resource for recreation
+      untaint            Manually unmark a resource as tainted
+      validate           Validates the Terraform files
+      version            Prints the Terraform version
+      workspace          Workspace management
 
-All other commands:
-    0.12upgrade        Rewrites pre-0.12 module source code for v0.12
-    debug              Debug output management (experimental)
-    force-unlock       Manually unlock the terraform state
-    push               Obsolete command for Terraform Enterprise legacy (v1)
-    state              Advanced state management
+  All other commands:
+      0.12upgrade        Rewrites pre-0.12 module source code for v0.12
+      debug              Debug output management (experimental)
+      force-unlock       Manually unlock the terraform state
+      push               Obsolete command for Terraform Enterprise legacy (v1)
+      state              Advanced state management
 ```
 
 The following are the main options with the **terraform** command:
@@ -6540,14 +6540,14 @@ The first step is to prepare the provider's configuration. The configuration is 
 The output shows the configuration for the provider:
 
 ```bash
-~/$ cat main.tf
-provider "ucs" {
-  ip_address   = "192.168.1.1"
-  username     = "ucspe"
-  password     = "ucspe"
-  log_level    = 1
-  log_filename = "terraform.log"
-}
+  ~/$ cat main.tf
+  provider "ucs" {
+    ip_address   = "192.168.1.1"
+    username     = "ucspe"
+    password     = "ucspe"
+    log_level    = 1
+    log_filename = "terraform.log"
+  }
 ```
 
 Cisco UCS Manager has two service profile templates (template-web and template-app) and no service profiles.
@@ -6926,7 +6926,7 @@ The class definition only specifies the class. To use a class in the configurati
 Include-like declaration is the most common type of declaration. This type of declaration allows you to declare class safely multiple times. The most common way to declare a class with include-like declaration is to use **include** function. The following snippet shows an example of declaring a class with the **include** function.
 
 ```bash
-include save_date
+  include save_date
 ```
 
 Another way to declare a class is to use resource-like declaration. This declaration type is useful if you want to pass parameters to the class to override the default parameters. Resource-like declaration must be unique. The following snippet shows an example of resource-like declaration where you pass variable to the class.
@@ -6972,12 +6972,12 @@ Add the configuration to the **site.pp** file under the **/etc/puppetlabs/code/e
 First, create placeholders for different nodes in **site.pp**.
 
 ```bash
-node 'puppeta01' {
+  node 'puppeta01' {
 
-}
-node 'puppeta02' {
+  }
+  node 'puppeta02' {
 
-}
+  }
 ```
 Use a node definition that will apply the Puppet code to certain node. For example, an IP address is a unique property of a node, therefore you need two different configurations.
 
@@ -6986,17 +6986,17 @@ To set the IP address on the interface, provide a configuration file and place t
 Store the following template in the **network-if.cfg** file:
 
 ```bash
-TYPE=Ethernet
-BOOTPROTO=none
-DEFROUTE=yes
-IPV4_FAILURE_FATAL=no
-NAME=enp0s3
-UUID=
-DEVICE=enp0s3
-ONBOOT=yes
-IPADDR=<%= @ip_address %>
-PREFIX=24
-GATEWAY=192.168.1.1
+  TYPE=Ethernet
+  BOOTPROTO=none
+  DEFROUTE=yes
+  IPV4_FAILURE_FATAL=no
+  NAME=enp0s3
+  UUID=
+  DEVICE=enp0s3
+  ONBOOT=yes
+  IPADDR=<%= @ip_address %>
+  PREFIX=24
+  GATEWAY=192.168.1.1
 ```
 The IPADDR parameter will be configured as parameter in this template. Everything else will be statically configured.
 
@@ -7027,12 +7027,12 @@ Now that class is ready, you can declare the class.
 Add the following code to **site.pp** to declare the classes.
 
 ```bash
-`node 'puppeta01' {
-  class { 'conf_if': ip_address => "192.168.1.11" }
-}
-node 'puppeta02' {
-  class { 'conf_if': ip_address => "192.168.1.12" }
-}`
+  `node 'puppeta01' {
+    class { 'conf_if': ip_address => "192.168.1.11" }
+  }
+  node 'puppeta02' {
+    class { 'conf_if': ip_address => "192.168.1.12" }
+  }`
 ```
 
 The example shows the resource-like declaration. Each server will use a unique IP address in class declaration.
@@ -7042,16 +7042,16 @@ Next, create a class for DNS configuration. First, create a template that will b
 Add the file **dns.cfg** with the following content to specify the template for the DNS configuration.
 
 ```bash
-<% [@dns_servers].flatten.each do |server| -%>
-nameserver <%= server %>
-<% end -%>
-```
+  <% [@dns_servers].flatten.each do |server| -%>
+  nameserver <%= server %>
+  <% end -%>
+  ```
 
-The template will use a loop to add multiple entries to the file. The template expects the **dns_servers** list variable.
+  The template will use a loop to add multiple entries to the file. The template expects the **dns_servers** list variable.
 
-Next, create a class in the **site.pp** to configure DNS servers.
+  Next, create a class in the **site.pp** to configure DNS servers.
 
-Add the following class to the **site.pp** file.
+  Add the following class to the **site.pp** file.
 
 ```bash
   class conf_dns {
@@ -7072,14 +7072,14 @@ Next, you need to declare classes inside node configuration.
 Update the **site.pp** file to declare the conf_dns class.
 
 ```bash
-node 'puppeta01' {
-  class { 'conf_if': ip_address => "192.168.1.11" }
-  include conf_dns
-}
-node 'puppeta02' {
-  class { 'conf_if': ip_address => "192.168.1.12" }
-  include conf_dns
-}
+  node 'puppeta01' {
+    class { 'conf_if': ip_address => "192.168.1.11" }
+    include conf_dns
+  }
+  node 'puppeta02' {
+    class { 'conf_if': ip_address => "192.168.1.12" }
+    include conf_dns
+  }
 ```
 
 Since you will not add any additional parameters to the class, you can use include-like declaration.
@@ -7103,16 +7103,16 @@ After the installation, you can use a Puppet NTP module directly in the configur
 Update the configuration in **site.pp** file to declare the ntp class.
 
 ```bash
-node 'puppeta01' {
-  class { 'conf_if': ip_address => "192.168.1.11" }
-  include conf_dns
-  class { 'ntp': servers => ['192.168.1.250'] }
-}
-node 'puppeta02' {
-  class { 'conf_if': ip_address => "192.168.1.12" }
-  include conf_dns
-  class { 'ntp': servers => ['192.168.1.250'] }
-}
+  node 'puppeta01' {
+    class { 'conf_if': ip_address => "192.168.1.11" }
+    include conf_dns
+    class { 'ntp': servers => ['192.168.1.250'] }
+  }
+  node 'puppeta02' {
+    class { 'conf_if': ip_address => "192.168.1.12" }
+    include conf_dns
+    class { 'ntp': servers => ['192.168.1.250'] }
+  }
 ```
 
 The ntp class from the Puppet NTP module will be used. The class accepts the **servers** variable, which is the list of servers.
@@ -7337,9 +7337,9 @@ First, create inventory file with the name **hosts** and it will be saved in the
 Add managed hosts to the inventory file.
 
 ```bash
-[servers]
-server01
-server02
+  [servers]
+  server01
+  server02
 ```
 
 The inventory file includes two hosts under the group servers.
@@ -7349,17 +7349,17 @@ In the first step, set the IP address on the interface. Create a template file w
 Add the following template to the **network-if.cfg** file:
 
 ```bash
-TYPE=Ethernet
-BOOTPROTO=none
-DEFROUTE=yes
-IPV4_FAILURE_FATAL=no
-NAME=enp0s3
-UUID=
-DEVICE=enp0s3
-ONBOOT=yes
-IPADDR={{ ip_address }}
-PREFIX=24
-GATEWAY=192.168.1.1
+  TYPE=Ethernet
+  BOOTPROTO=none
+  DEFROUTE=yes
+  IPV4_FAILURE_FATAL=no
+  NAME=enp0s3
+  UUID=
+  DEVICE=enp0s3
+  ONBOOT=yes
+  IPADDR={{ ip_address }}
+  PREFIX=24
+  GATEWAY=192.168.1.1
 ```
 
 Ansible uses the Jinja2 templating language, so the variable is specified as a Jinja2 variable.
@@ -7474,19 +7474,19 @@ Finally, create a configuration for NTP servers. You will create the reusable An
 Create **roles** folder and use the **ansible-galaxy init ntp** command under the **roles** folder to create a role skeleton:
 
 ```bash
-[root@ansible roles]# ansible-galaxy init ntp
-- Role ntp was created successfully
-[root@ansible roles]# ls -l ntp/
-total 4
--rw-r--r--. 1 root root 1328 Oct  7 10:22 README.md
-drwxr-xr-x. 2 root root   21 Oct  7 10:22 defaults
-drwxr-xr-x. 2 root root    6 Oct  7 10:22 files
-drwxr-xr-x. 2 root root   21 Oct  7 10:22 handlers
-drwxr-xr-x. 2 root root   21 Oct  7 10:22 meta
-drwxr-xr-x. 2 root root   21 Oct  7 10:36 tasks
-drwxr-xr-x. 2 root root   30 Oct  7 10:35 templates
-drwxr-xr-x. 2 root root   37 Oct  7 10:22 tests
-drwxr-xr-x. 2 root root   21 Oct  7 10:22 vars
+  [root@ansible roles]# ansible-galaxy init ntp
+  - Role ntp was created successfully
+  [root@ansible roles]# ls -l ntp/
+  total 4
+  -rw-r--r--. 1 root root 1328 Oct  7 10:22 README.md
+  drwxr-xr-x. 2 root root   21 Oct  7 10:22 defaults
+  drwxr-xr-x. 2 root root    6 Oct  7 10:22 files
+  drwxr-xr-x. 2 root root   21 Oct  7 10:22 handlers
+  drwxr-xr-x. 2 root root   21 Oct  7 10:22 meta
+  drwxr-xr-x. 2 root root   21 Oct  7 10:36 tasks
+  drwxr-xr-x. 2 root root   30 Oct  7 10:35 templates
+  drwxr-xr-x. 2 root root   37 Oct  7 10:22 tests
+  drwxr-xr-x. 2 root root   21 Oct  7 10:22 vars
 ```
 
 Create the template for NTP configuration. Take the default configuration file and replace the **server** section with the Jinja2 variables. Add the template file under **roles/ntp/template/ntp.conf.template**.
@@ -8417,11 +8417,11 @@ Expressions address an XML document and return a result that can be of one of th
 * **Number:** a single number element
 * **Boolean:** true or false
 
-![](/images/devcor/devcor_11_3_1.png)
+![](/images/devcor/devcor_11_3_1.JPG)
 
 The most common path expressions are the following:
 
-![](/images/devcor/devcor_11_3_2.png)
+![](/images/devcor/devcor_11_3_2.JPG)
 
 The following XML source data will be used to demonstrate the usage of the XPath expressions.
 
@@ -9104,19 +9104,19 @@ The GitHub repository https://github.com/YangModels/yang/tree/master/vendor/cisc
 For the navigation over the YANG data model, XPath path is used. As you already know from the RESTCONF, the URI for the Cisco IOS XE full device configuration is ***https://172.16.1.57:443/restconf/data/native.*** The following snippet shows the JSON RESTCONF replay from the device.
 
 ```bash
-{
-  "Cisco-IOS-XE-native:native": {
-    "version": "16.9",
+  {
+    "Cisco-IOS-XE-native:native": {
+      "version": "16.9",
 
-<... output omitted ...>
+  <... output omitted ...>
 
-    },
-    "interface": {
-      "GigabitEthernet": [
+      },
+      "interface": {
+        "GigabitEthernet": [
 
-<... output omitted ...>
+  <... output omitted ...>
 
-}
+  }
 ```
 
 The construct in the second line of the output gives as information about YANG module ***Cisco-IOS-XE-native***. You should look in the Cisco-IOS-XE-native.yang for the ***native/interface/GigabitEthernet*** definition.
@@ -9862,9 +9862,9 @@ Every key is not the same! Keep in mind that values will be read programmaticall
 * Better keys:
 
 ```bash
-"User:1:FirstName" : "Bob"
-"User:1:LastName" : "Smith"
-"User:1:Location" : "London"
+  "User:1:FirstName" : "Bob"
+  "User:1:LastName" : "Smith"
+  "User:1:Location" : "London"
 ```
 By breaking down a key and its value, you can access atomic data via a single key with no additional parsing. Keys can also be generated or accessed programmatically (for example, "for" loops), because you only need to know the structure of the key and not the key names themselves.
 
@@ -10022,7 +10022,7 @@ Embedded documents can be queried directly or using dot notation. Queries resemb
 
 Query operators allow for functionalities, like SQL language.
 
-*First query finds all the shopping cards, whose status is C  ompleted and have bought both Intel I7 and Intel I9 CPUs.
+* First query finds all the shopping cards, whose status is C  ompleted and have bought both Intel I7 and Intel I9 CPUs.
 
 * Second query lists materials that are between 50cm and 100cm long.
 
@@ -10187,3 +10187,186 @@ While graph databases may seem to be an improvement compared to classic database
   * recommendation engine
 
 The correct answers are "fraud detection" and "recommendation engine." Graph-based databases are often used for fraud detection because they can analyze the relations between multiple entities and isolate suspicious entities. Graph-based databases also are used for recommendation engines because they can simply and inexpensively analyze relationship-based queries in real time.
+
+## 12.7 Columnar-Based Database Concepts
+
+Imagine that you are managing a relational database that contains a huge number of rows. You often execute queries on a single parameter, such as calculating the average age of people in your database. Such queries are very slow because every row must be accessed for the age parameter to be read. Improve your queries by using columnar-based databases.
+
+Columnar-based databases (sometimes referred to as wide column databases) are databases that store data in columns instead of rows in contiguous blocks.
+
+![](/images/devcor/devcor_12_7_1.png)
+
+In a regular database, data from each row is stored close together on the disk. With the columnar databases, data from each column is stored together. Each scheme is better suited to the problem that they are trying to solve.
+
+For example, if you are running a web store and use the database for your product inventory, it would make more sense to use a regular row-based database, because most of your queries will be for whole entities. For example, if a customer wants to view a product, a query is run to return all the parameters of the product. But if you want to use the same data for business analysis, it makes more sense to use a columnar-based database, because queries will be run against an attribute (for example the average price of all products), not an entity. So only one row needs to be read, not of all of them. Conversely, accessing all attributes of a particular entity in a columnar database is proportionally slow.
+
+The idea of storing data in columns was born from the fact that seek operations are the most expensive executed on storage. Hard disks are organized into a series of blocks of a fixed size, typically big enough to store a few rows, so related data groups try to fit into the smallest number of blocks possible. Reducing the operational data needed for queries to the relevant elements lets you store all the operational data directly in the memory.
+
+Data structures can be columnar or row-based. A row-based structure uses column indexing, but performance is not as good as using a native columnar database.
+
+It is possible to migrate from a relational row-based database to a column-based database, but the process can be complex and lengthy.
+
+The columnar-based database model allows a few operations to be executed very fast, but other operations are suboptimal.
+
+**INSERT** and **UPATE** operations are usually slower (except maybe for bulk operations on a single attribute). Reading an entity as a whole is also slower. Joining tables together also has worse performance on column-based databases, but JOIN operations are not common there. Online transaction processing (OLTP) systems are better off choosing a row-based database.
+
+Columnar databases perform exceptionally well with range-based queries. All the data is provided in a single row, so doing aggregate operations (AVG, SUM, MIN...) and reading entire data sets (columns) are more suitable for online transaction analysis (OLTA) systems.
+
+Most of the columnar-based databases use a SQL-like syntax, which means you should be familiar with SQL concepts while working with them. As with time series databases, columnar databases can use either the relational or nonrelational model. Deciding which to use is based mostly on the intended use and the potential volume of data.
+
+Normally, database types are not exclusive. It makes sense to combine, for example, columnar and document-based database models to leverage the advantages (and disadvantages) of both.
+
+Columnar-based databases are often used in:
+
+* **Data warehouses:** Structured data repositories that combine hardware and software to enable storage and analysis of data. Columnar-based databases are used as a data source in those warehouses. Data can be uploaded directly from the operational systems or migrated from another type of data storage.
+
+* **Business intelligence (BI):** Often focuses on analysis of a single column or column family of millions of records. Columnar-based databases are perfect for BI, which is why databases such as Cassandra are often used in BI applications by default.
+
+* **Big data:** Often requires both a high volume of data gathering and processing. Databases such as HBase offer out-of-the-box scalability and high availability, with tools for real-time and historical analysis.
+
+* **Library card catalog:** Used to sort books and other library material by categories such as author, subject, or title. The category, by which the books were sorted, is an equivalent of a column in a database.
+
+* **Ad hoc query systems:** Queries that cannot be determined before the moment the query is issued. They are often constructed programmatically in applications and each execution might produce different results (for example, query of several active users on a specific system, to determine where the load balancer should point the next request).
+
+The specific way in which column-based databases store their data gives you even more opportunities for optimization. Entries consist of a value and an internal ID, that is used by the system to reference the row in which the entry is found. This ID is usually a 64 or 128-bit integer.
+
+Compression of columnar data is very efficient due to uniformity of the data.
+
+![](/images/devcor/devcor_12_7_2.png)
+
+Compression algorithms, such as LZW or run-length encoding, perform much better, and have better compression ratios on data that is similar in structure. This characteristic of structure gives better performance than an algorithm handling seemingly random data, because the data contains many similar sequences. This compression ratio improvement reduces the footprint on a hard drive, but retrieval is less efficient. Although some column-based operations can run on compressed data, others need to decompress the data first.
+
+To maximize compression efficiency, one should also use low-cardinality (for example, Boolean values, enumerators, and so on) columns first.
+
+Columnar databases often support parallel processing of queries with Single Instruction Multiple Data (SIMD) instructions and vector processing.
+
+![](/images/devcor/devcor_12_7_3.png)
+
+Single Instruction Multiple Data (SIMD) instructions allow you to execute some queries in parallel, using a single CPU instruction for multiple values.
+
+Instead of using a CPU instruction for a single value, values are vectorized and processed as a vector, which saves processing power since each CPU operation has some overhead.
+
+Which two statements about columnar databases are true?
+* Data is saved in columns
+* Aggregation queries are fast
+
+## 12.8 Time Series Database Concepts
+
+Time series databases are an example of specialized databases. They are designed to efficiently store any kind of data that changes over time.
+
+At first glance, time series databases are essentially key-value databases. The key represents a specific time and date notation. This time and date scale can differ greatly and depends on the use case, however the same amount of time usually passes between each entry in a time series database.
+
+A sensor that measures laser temperature in a factory will operate on a much smaller timescales and date time notations than a thermometer that logs the daily average temperatures in a region.
+
+The value is a metric—usually a kind of measurement, system state, or something more complex, and can be a single value or a collection of values. An example of a single value could be the total amount of energy that is created by a power plant. An example for a complex value could contain sensor ID, sensor location, and a sensor measurement or a model of river flow over time, when metric values represent vectors that the system can create a 3-D time model.
+
+![](/images/devcor/devcor_12_8_1.JPG)
+
+![](/images/devcor/devcor_12_8_2.png)
+
+Time series databases have solidified their place in the industry and are popular in:
+
+* **System monitoring:** Each system typically contains some run time and hardware metrics like component temperature and load, disk I/O operations per second (IOPS), free and used memory, and so on. Storing this data can allow you to predict usage spikes, detect hardware malfunctions, performance bottlenecks and much more.
+
+* **Finances:** Finance applications use time series data to either keep track of assets like stocks and currencies, their price and the trends over time, or can be used to store financial transactions and their metadata. Autonomous trading algorithms can use this data.
+
+* **IoT:** With IoT becoming more present in everyday lives, the number of sensors and their data points increases. An IoT device that measures air quality can contain multiple sensors like temperature, pressure, humidity, pollution, and CO2 levels. Each one gets logged with a time stamp and an ID of the device and the sensor.
+
+* **Asset management:** Time series data is often a part of business applications for real-time and historical data analysis, which helps identify trends and manage assets.
+
+* **Machine learning:** Predictive analysis often uses machine learning and neural networks combined with time series data to make predictions about future trends and warn you about anomalies.
+
+Time series databases have two main goals:
+
+* First goal:
+  * Identifying the nature of the phenomena under observation.
+
+* Second goal:
+  * Forecasting future values of the time series.
+
+* Both require an identified pattern of observed data!
+
+![](/images/devcor/devcor_12_8_3.png)
+
+A pattern in time series data consists of two components:
+
+* **Trend:** Represents a general systematic change of a component that does not repeat within the selected time frame. An example of a trend would be the average yearly temperature on Earth, since it is increasing. Trends are mostly nonlinear, since it is hard to find linear data in real-life examples.
+
+* **Seasonality:** Has a similar nature as a trend, but repeats itself in systemic intervals. For example, the traffic density in an area varies throughout the day, but has a noticeable increase during the morning commute to work. Such a pattern can be observed every working day.
+
+![](/images/devcor/devcor_12_8_4.png)
+
+![](/images/devcor/devcor_12_8_5.png)
+
+To get the best representation of your data, separate the long term trends and seasonal influences from random fluctuations and errors by smoothing, which is a process of localized averaging of data.
+
+If the time series follows a single trend, smoothing can be achieved by using a linear or polynomial function.
+
+For less predictable data, other smoothing techniques are used:
+
+* **Moving average:** A moving window with an average of its values with size of n is used to replace each value in the time series. The wider the window, the smoother the data will be. This is a very simple method and easy to implement, however it is not particularly good at detecting short-term anomalies.
+
+* **Exponential smoothing:** Time windows are used to average data, but not all entries are weighted equally. The model uses an exponentially decreasing weight for past observations. Specifically, past observations are weighted with a geometrically decreasing ratio.
+
+Time series databases have some unique benefits and challenges to their implementation.
+
+Data points are immutable, which means they do not change anymore when written. Most of the time they are already organized into a series too. If a data point is missing here and there (because of bad connectivity, hardware errors on sensors) this also creates little to no impact on the overall data quality.
+
+ACID compliance is also not enforced due to those reasons.
+
+Most of the operations are simple **INSERT** commands, performed at regular time intervals. Since time series track changes to data over time, **UPDATE** statements should not be used, because when preserving the time series nature of the data, the information that it contains is preserved too. Smoothing techniques are commonly used to create new representations of time series, while preserving the original data.
+
+Time series is exceptionally fast and very scalable (which it needs to be), because it does not depend on existing data.
+
+Modern telemetry and logging systems produce an incredible amount of data every day. Self-driving cars produce a few thousand gigabytes of data each day and even though NoSQL databases are made to handle large amounts of data, time series outperforms them in this case.
+
+Time series data is usually very compressed.
+
+### Round-Robin Databases
+
+![](/images/devcor/devcor_12_8_6.png)
+
+Sometimes you are only interested in detailed operational data. The precision of data points that are older than a day, month, or year, offers no real advantages over averaged data of that time frame.
+
+
+Round-robin databases are often used to store monitoring data such as temperature, CPU load, or network bandwidth. In the short term, each data point is much more interesting than individual data points from some point in the past, where a general trend matters more.
+
+Round-robin databases store data points at a regular interval (called a heartbeat) for a limited amount of time, then use a consolidating function to store the consolidated data in round-Robin archives, which are separate files that are then used to query the data or use it for a visual representation.
+
+The database footprint on the system is static and relatively small, but still gives you useful data.
+
+The term round-robin comes from the fact that each data point points to the next one. Because the database size is determined at creation, the last data point points to the first one again, forming a circular model.
+
+
+### Time Series Database Types
+
+Various time series database management systems (TSDBMSs) have evolved primarily around their use cases. Some of them come with built-in advanced functionalities such as data visualization, web dashboards, and indexing and querying tools.
+
+![](/images/devcor/devcor_12_8_7.png)
+
+
+### InfluxDB
+
+```bash
+  value = from(bucket: "sensorData") 
+      |> range(start: -1h) 
+      |> filter(fn: (r) =>
+            r._measurement == “cpu" and 
+            r._field == “load" )
+```
+
+### TimescaleDB
+
+```bash
+  SELECT time, cpuLoad AS value FROM sensorData 
+  WHERE time > now() - '1 hour';
+```
+
+In the example, a query is made that displays the CPU load in the last hour, which shows, that time scale databases can be implemented either as a relational database (TimescaleDB) or as a NoSQL database (InfluxDB). The former are a bit less popular, since relational databases tend to be worse at scaling and handling large amounts of data, but are still used where using relations is a requirement, since data points often contain multiple IDs and complex queries that can be beneficial.
+
+While you can index data, the amount of it will keep growing and growing and the index will become slower and slower. A solution, often supported out-of-the-box in TSDBMS, is to internally split table rows into chunks with database partitioning, where a chunk represents a fixed size or an adaptive data set which can be based on time, location, function, and so on. A fixed size chunk will store data for a fixed set (monthly tables for data), but an adaptive chunk will be mostly limited by the data set size (limiting log files to 10 MB). Chunks are then stored in their own tables and not as a part of the primary table, which makes batch operations and indexes faster, and data set management easier (for example, backing up data sets separately, deprecating older data sets, and so on.
+
+Which three concepts are related to a time series database? 
+* trend
+* seasonality
+* metric
